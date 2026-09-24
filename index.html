@@ -188,15 +188,6 @@
   .popover-item-check{ margin-left:auto; flex-shrink:0; opacity:0; }
   .popover-item.active-role .popover-item-check{ opacity:1; }
 
-  .sidebar-actions{ display:flex; gap:8px; padding:0 14px 12px; flex-shrink:0; }
-  .sidebar-action-btn{
-    flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
-    background:var(--surface-alt); border:1px dashed var(--border); color:var(--text-dim);
-    font-size:12px; font-weight:600; padding:8px; border-radius:8px;
-  }
-  .sidebar-action-btn:hover{ border-color:var(--accent); border-style:solid; color:var(--accent); }
-  .sidebar-action-btn[hidden]{ display:none; }
-
   .sidebar-scroll{ flex:1; min-height:0; overflow-y:auto; padding:12px 10px; }
 
   .search-box{
@@ -294,7 +285,12 @@
     display:flex; flex-direction:column;
   }
   .day-divider{
-    display:flex; align-items:center; gap:12px; margin:8px 0 18px; color:var(--text-faint); font-size:11.5px; font-weight:600;
+    display:flex; align-items:center; gap:12px; margin:16px 0 4px; color:var(--text-dim); font-size:12px; font-weight:500;
+  }
+  .day-divider:first-child{ margin-top:6px; }
+  .day-pill{
+    border:1px solid var(--border); border-radius:20px; padding:4px 16px; background:var(--surface);
+    box-shadow:0 1px 2px rgba(20,25,40,0.04); white-space:nowrap;
   }
   .day-divider::before, .day-divider::after{ content:""; flex:1; height:1px; background:var(--border); }
 
@@ -311,7 +307,8 @@
 
   .msg-body{ min-width:0; flex:1; padding:2px 0; }
 
-  .msg-meta{ display:flex; align-items:baseline; gap:8px; margin-bottom:2px; }
+  .msg-meta{ display:flex; align-items:baseline; gap:8px; margin-bottom:2px; position:relative; width:fit-content; }
+  .msg-row.mine .msg-meta{ margin-left:auto; }
   .msg-author{ font-weight:700; font-size:13.5px; color:var(--text); }
   .msg-time{ font-size:11px; color:var(--text-faint); font-weight:500; }
   .pinned-tag{
@@ -345,7 +342,7 @@
   .msg-row.mine .msg-author{ color:var(--accent); }
   .msg-row.mine .bubble{ text-align:right; }
   .msg-row.mine .reactions{ justify-content:flex-end; }
-  .msg-row.mine .msg-hover-toolbar{ left:14px; right:auto; }
+  .msg-row.mine .msg-hover-toolbar{ right:100%; left:auto; margin:0 12px 0 0; }
 
   .msg-row.system{ justify-content:center; padding:4px 0; margin-top:10px; }
   .msg-row.system .bubble{
@@ -354,6 +351,17 @@
     border:1px solid var(--border);
   }
 
+  /* delivery status under sent messages */
+  .msg-status{ margin-top:3px; font-size:11px; line-height:1.4; color:var(--text-faint); font-weight:500; }
+  .msg-row.mine .msg-status{ justify-content:flex-end; text-align:right; }
+  .msg-status.st-delivered{ color:var(--success); }
+  .msg-status.st-failed, .msg-status.st-undelivered{ color:var(--danger); font-weight:600; }
+  .msg-retry{
+    background:none; border:none; padding:0; margin-left:2px; font:inherit; font-weight:700;
+    color:var(--danger); text-decoration:underline; cursor:pointer;
+  }
+  .msg-retry:hover{ filter:brightness(1.15); }
+  .msg-retry:focus-visible{ outline:2px solid var(--danger); outline-offset:2px; border-radius:3px; }
   .reactions{ display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
   .reaction-pill{
     display:inline-flex; align-items:center; gap:5px;
@@ -371,19 +379,24 @@
   .reaction-add:hover{ border-color:var(--accent); color:var(--accent); }
 
   .msg-hover-toolbar{
-    position:absolute; top:-14px; right:14px;
-    display:none; align-items:center; gap:2px;
-    background:var(--surface); border:1px solid var(--border); border-radius:8px;
-    box-shadow:var(--shadow); padding:3px;
+    position:absolute; top:-18px; left:100%; margin-left:12px; z-index:5;
+    display:none; align-items:center; gap:1px; padding:3px;
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    box-shadow:0 6px 18px rgba(20,25,40,0.12), 0 1px 3px rgba(20,25,40,0.08);
   }
-  .msg-row:hover .msg-hover-toolbar{ display:flex; }
+  .msg-row:hover .msg-hover-toolbar, .msg-row:focus-within .msg-hover-toolbar{ display:flex; animation:tbIn .14s ease-out; }
+  @keyframes tbIn{ from{ opacity:0; transform:translateY(4px) scale(.97); } to{ opacity:1; transform:none; } }
   .msg-hover-toolbar button{
-    background:none; border:none; width:26px; height:26px; border-radius:5px;
+    background:none; border:none; width:30px; height:30px; border-radius:8px; padding:0;
     display:flex; align-items:center; justify-content:center; color:var(--text-dim);
+    transition:background .12s, color .12s, transform .12s;
   }
+  .msg-hover-toolbar button svg{ width:16px; height:16px; }
   .msg-hover-toolbar button:hover{ background:var(--surface-alt); color:var(--text); }
+  .msg-hover-toolbar button:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .tb-sep{ width:1px; height:18px; background:var(--border); margin:0 3px; flex-shrink:0; }
 
-  .msg-status{ font-size:10.5px; color:var(--text-faint); margin-top:3px; display:flex; align-items:center; gap:3px; }
+  .msg-status{ font-size:11px; display:flex; align-items:center; flex-wrap:wrap; gap:3px; }
 
   .typing-indicator{ display:flex; align-items:center; gap:10px; padding:6px 8px; }
   .typing-dots{ display:flex; gap:3px; background:var(--surface); border:1px solid var(--border); padding:10px 13px; border-radius:12px; border-top-left-radius:4px; }
@@ -515,16 +528,7 @@
     border-radius:8px; display:inline-flex; align-items:center; justify-content:center; padding:0 4px;
   }
   .chat-scope-row{ display:flex; align-items:center; gap:6px; padding:0 4px 8px; }
-  .scope-pill{
-    background:var(--surface-alt); border:1px solid var(--border); color:var(--text-dim);
-    font-weight:600; font-size:11.5px; padding:5px 12px; border-radius:20px;
-  }
   .scope-actions{ margin-left:auto; display:flex; gap:2px; }
-  .channel-hash{
-    width:34px; height:34px; border-radius:50%; background:var(--surface-alt); border:1px solid var(--border);
-    color:var(--text-faint); font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-
   /* ---------- Static additions: chat header ---------- */
   .star-btn{
     background:none; border:none; color:#e3a532; width:18px; height:18px; padding:0;
@@ -537,6 +541,87 @@
   .member-stack:hover{ background:var(--surface-alt); }
   .member-stack .avatar{ margin-left:-8px; }
   .member-stack .avatar:first-child{ margin-left:0; }
+
+  /* Members panel (right side, same slot as the profile panel) */
+  #detailProfile{ display:flex; flex-direction:column; }
+  #detailProfile[hidden], #detailMembers[hidden], #detailPins[hidden], #detailNotes[hidden]{ display:none; }
+  .dm-head{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    padding:18px 20px 14px; border-bottom:1px solid var(--border);
+  }
+  .dm-title{ font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; }
+  .dm-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; word-break:break-word; }
+  #detailMembers .member-manage-row{ padding:8px 0; }
+  #detailMembers .member-manage-row:hover{ background:none; }
+  #detailMembers .members-note{ margin-bottom:12px; }
+
+  /* Inline message editing + edited tag */
+  .msg-edited{ font-size:11px; color:var(--text-faint); margin-left:4px; white-space:nowrap; }
+  .msg-editor{ width:100%; max-width:560px; text-align:left; white-space:normal; }
+  .msg-row.mine .msg-editor{ margin-left:auto; }
+  .msg-editor textarea{
+    width:100%; display:block; resize:none; min-height:44px; max-height:200px; padding:9px 11px;
+    border:1px solid var(--accent); border-radius:10px; background:var(--surface); color:var(--text);
+    font:inherit; font-size:14px; line-height:1.45; outline:none; box-shadow:0 0 0 3px var(--accent-dim);
+  }
+  .msg-editor-foot{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px; }
+  .msg-editor-hint{ font-size:11px; color:var(--text-faint); }
+  .msg-editor-btns{ display:flex; gap:6px; }
+  .msg-editor-btns .btn-primary, .msg-editor-btns .btn-secondary{ padding:5px 12px; font-size:12px; }
+  .msg-row.editing, .msg-row.editing:hover{ background:var(--accent-dim); }
+  .msg-row.editing .msg-hover-toolbar{ display:none !important; }
+
+  /* Pinned messages + Notes panels */
+  .side-panel{ display:flex; flex-direction:column; }
+  .side-panel[hidden]{ display:none; }
+  .icon-btn{ position:relative; }
+  .icon-btn.active{ background:var(--accent-dim); color:var(--accent); }
+  .icon-badge{
+    position:absolute; top:0; right:-1px; min-width:15px; height:15px; padding:0 4px; border-radius:8px;
+    background:var(--accent); color:#fff; font-size:9.5px; font-weight:700; line-height:15px; text-align:center;
+    box-shadow:0 0 0 2px var(--bg);
+  }
+  .icon-badge[hidden]{ display:none; }
+  .sp-body{ padding:14px 20px 24px; display:flex; flex-direction:column; gap:10px; }
+  .pin-card, .note-card{
+    background:var(--surface-alt); border:1px solid var(--border); border-radius:12px; padding:11px 12px;
+  }
+  .pin-card{ border-left:3px solid var(--warn, #e3a532); }
+  .pin-head{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .pin-who{ min-width:0; line-height:1.25; }
+  .pin-author{ font-size:12.5px; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pin-when, .note-when{ font-size:11px; color:var(--text-faint); }
+  .pin-text, .note-text{
+    font-size:13px; line-height:1.5; color:var(--text); white-space:pre-wrap; word-break:break-word;
+  }
+  .pin-text{ display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+  .pin-actions, .note-actions{ display:flex; align-items:center; gap:4px; margin-top:8px; }
+  .sp-link{
+    background:none; border:none; padding:3px 6px; margin-left:-6px; border-radius:6px; font-size:11.5px; font-weight:600;
+    color:var(--accent); cursor:pointer;
+  }
+  .sp-link:hover{ background:var(--accent-dim); }
+  .sp-link.danger{ color:var(--danger); }
+  .sp-link.danger:hover{ background:rgba(224,67,61,0.12); }
+  .sp-spacer{ flex:1; }
+  .note-composer{ background:var(--surface-alt); border:1px solid var(--border); border-radius:12px; padding:10px; }
+  .note-composer:focus-within{ border-color:var(--accent); }
+  .note-composer textarea, .note-edit textarea{
+    width:100%; border:none; background:none; resize:vertical; min-height:64px; max-height:220px; outline:none;
+    font:inherit; font-size:13px; line-height:1.5; color:var(--text);
+  }
+  .note-composer-foot{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px; }
+  .note-hint{ font-size:11px; color:var(--text-faint); }
+  .note-edit textarea{ background:var(--surface); border:1px solid var(--accent); border-radius:8px; padding:8px; }
+  .note-edit .note-actions{ justify-content:flex-end; }
+  .note-meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px; }
+  .note-privacy{ font-size:11.5px; color:var(--text-faint); display:flex; align-items:center; gap:5px; margin-bottom:2px; }
+  @media (max-width: 1180px){
+    .app.detail-open[data-dview="pins"] .detail, .app.detail-open[data-dview="notes"] .detail{
+      display:flex; position:fixed; top:58px; right:0; bottom:0; width:340px; max-width:100vw; z-index:40;
+      box-shadow:-12px 0 32px rgba(20,25,40,0.25);
+    }
+  }
 
   /* Members modal */
   .members-box{ width:420px; }
@@ -571,21 +656,6 @@
   .thread-preview .avatar:first-child{ margin-left:0; }
   .thread-preview-text{ font-size:12.5px; font-weight:600; color:var(--accent); }
   .thread-preview-sub{ font-size:11.5px; color:var(--text-faint); }
-  .call-log-card{
-    display:flex; align-items:flex-start; gap:10px; margin-top:8px; text-align:left;
-    background:var(--surface-alt); border:1px solid var(--border); border-radius:10px; padding:11px 13px; max-width:340px;
-  }
-  .call-log-icon{
-    width:34px; height:34px; border-radius:50%; background:var(--accent-dim); color:var(--accent);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .call-log-title{ font-size:13px; font-weight:700; color:var(--text); }
-  .call-log-meta{ font-size:11.5px; color:var(--text-faint); margin-top:1px; }
-  .call-log-actions{ display:flex; gap:6px; margin-top:8px; }
-  .call-log-actions span{
-    display:flex; align-items:center; gap:5px; background:var(--surface); border:1px solid var(--border);
-    color:var(--text-dim); font-size:11.5px; font-weight:600; padding:5px 9px; border-radius:6px;
-  }
   .ai-recap-card{
     display:flex; gap:9px; margin-top:8px; text-align:left; background:var(--purple-bg);
     border:1px solid rgba(124,58,237,0.25); border-radius:10px; padding:11px 13px; max-width:420px;
@@ -604,19 +674,15 @@
   .file-card-name{ font-size:12.5px; font-weight:600; color:var(--text); }
   .file-card-meta{ font-size:11px; color:var(--text-faint); }
   .file-card-dl{ margin-left:auto; color:var(--text-dim); display:flex; }
-  .msg-hover-toolbar button.quick-emoji{ font-size:14px; }
-  .msg-row.mine .call-log-card, .msg-row.mine .ai-recap-card{ margin-left:auto; }
+  .msg-hover-toolbar button.quick-emoji{ font-size:17px; line-height:1; }
+  .msg-hover-toolbar button.quick-emoji:hover{ transform:scale(1.18); background:var(--accent-dim); }
+  .msg-hover-toolbar button.quick-emoji.on{ background:var(--accent-dim); box-shadow:inset 0 0 0 1px rgba(47,94,255,0.35); }
+  .msg-hover-toolbar button.msg-pin-btn.on{ color:var(--warn); background:var(--warn-bg); }
+  .msg-hover-toolbar button.msg-pin-btn.on svg{ fill:currentColor; fill-opacity:.25; }
+  .msg-row.mine .ai-recap-card{ margin-left:auto; }
   .msg-row.mine .thread-preview{ justify-content:flex-end; }
 
   /* ---------- Static additions: composer ---------- */
-  .suggested-replies{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-bottom:10px; }
-  .suggested-label{ display:flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:var(--purple); flex-shrink:0; }
-  .suggested-chip{
-    background:var(--surface); border:1px solid var(--border); color:var(--purple);
-    font-size:12px; font-weight:600; padding:6px 12px; border-radius:20px; white-space:nowrap;
-  }
-  .suggested-chip:hover{ border-color:var(--purple); background:var(--purple-bg); }
-  .composer-divider{ width:1px; height:16px; background:var(--border); margin:0 5px; flex-shrink:0; }
   .quick-replies-btn{
     display:flex; align-items:center; gap:5px; background:var(--surface); border:1px solid var(--border);
     color:var(--text-dim); font-size:12px; font-weight:600; padding:5px 10px; border-radius:7px; margin-left:4px;
@@ -630,12 +696,50 @@
     font-weight:600; font-size:12.5px; padding:8px 10px; margin-bottom:-1px;
   }
   .detail-tab.active{ color:var(--accent); border-bottom-color:var(--accent); }
+  .detail-tab{ cursor:pointer; }
+  .detail-tab:hover{ color:var(--text); }
+  .detail-tab.active:hover{ color:var(--accent); }
+  .detail-tab:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:6px; }
+  #detailDetailsPane[hidden]{ display:none; }
+  .detail-tab-pane{ padding:14px 16px 20px; }
+  .detail-tab-pane[hidden]{ display:none; }
+  .tp-search{ margin-bottom:10px; }
+  .tp-chips{ display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+  .tp-chip{
+    background:var(--surface-alt); border:1px solid var(--border); color:var(--text-dim); border-radius:14px;
+    padding:3px 10px; font-size:11.5px; font-weight:600; cursor:pointer;
+  }
+  .tp-chip.active{ background:var(--accent-dim); border-color:rgba(47,94,255,0.35); color:var(--accent); }
+  .tp-count{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; }
+  .tp-item{
+    display:flex; align-items:center; gap:10px; padding:9px 8px; margin:0 -8px; border-radius:8px;
+    cursor:pointer; color:inherit;
+  }
+  .tp-item:hover{ background:var(--surface-alt); }
+  .tp-item:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .tp-icon{
+    width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    background:var(--accent-dim); color:var(--accent); font-size:9.5px; font-weight:800; letter-spacing:.02em; overflow:hidden;
+  }
+  .tp-icon img{ width:100%; height:100%; object-fit:cover; }
+  .tp-body{ flex:1; min-width:0; }
+  .tp-title{ font-size:13px; font-weight:600; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tp-sub{ font-size:11.5px; color:var(--text-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tp-action{
+    background:none; border:1px solid var(--border); border-radius:8px; width:28px; height:28px; padding:0; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:var(--text-dim); cursor:pointer;
+  }
+  .tp-action:hover{ color:var(--accent); border-color:var(--accent); }
+  .tp-empty{ text-align:center; padding:36px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.5; }
+  .tp-empty b{ display:block; color:var(--text-dim); font-size:13px; margin-bottom:4px; }
   .member-row, .call-row{ display:flex; align-items:center; gap:10px; padding:7px 0; }
   .member-name, .call-name{ flex:1; min-width:0; font-size:13px; font-weight:600; color:var(--text); }
   .member-role, .call-when{ font-size:11px; color:var(--text-faint); flex-shrink:0; }
   .block-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .block-head .detail-block-title{ margin-bottom:0; }
-  .block-link{ font-size:11.5px; font-weight:600; color:var(--accent); }
+  .block-link{ font-size:11.5px; font-weight:600; color:var(--accent); background:none; border:none; padding:0; cursor:pointer; }
+  .block-link:hover{ text-decoration:underline; }
+  .empty-note{ font-size:12px; color:var(--text-faint); padding:4px 0; }
   .call-icon{
     width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;
     background:rgba(23,166,115,0.12); color:var(--success);
@@ -685,19 +789,6 @@
     font-family:inherit; font-size:10px; font-weight:600; background:var(--surface-alt); border:1px solid var(--border);
     border-radius:4px; padding:0 4px; color:var(--text-dim);
   }
-  .composer-hint .hint-secure{ margin-left:auto; color:var(--success); }
-
-  .suggested-replies{ flex-wrap:nowrap; padding-bottom:10px; min-width:0; }
-  .suggested-replies[hidden]{ display:none; }
-  .suggested-chips{ display:flex; gap:8px; overflow-x:auto; min-width:0; flex:1; padding:2px 0; scrollbar-width:none; }
-  .suggested-chips::-webkit-scrollbar{ display:none; }
-  .suggested-chip{ cursor:pointer; flex-shrink:0; transition:transform .08s; }
-  .suggested-chip:active{ transform:scale(0.97); }
-  .suggested-dismiss{
-    background:none; border:none; color:var(--text-faint); width:22px; height:22px; border-radius:6px;
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .suggested-dismiss:hover{ background:var(--surface-alt); color:var(--text); }
 
   /* Attachments strip */
   .attach-strip{ display:flex; gap:8px; flex-wrap:wrap; padding:0 0 10px; }
@@ -753,6 +844,91 @@
   }
   .format-keys{ margin-left:auto; font-size:11px; color:var(--text-faint); padding-left:14px; }
 
+  /* Call log card */
+  .cl-card{
+    margin-top:6px; width:fit-content; max-width:min(100%,520px); border:1px solid var(--border); border-radius:22px; padding:7px;
+    background:var(--surface); text-align:left;
+  }
+  .cl-inner{ display:flex; align-items:center; gap:14px; background:var(--surface-alt); border-radius:16px; padding:12px 14px 12px 16px; }
+  .cl-ico{ flex-shrink:0; color:var(--text-dim); display:flex; align-self:center; }
+  .cl-inner.missed .cl-ico{ color:var(--danger); }
+  .cl-body{ min-width:0; flex:1; }
+  .cl-title{ font-size:14px; font-weight:700; color:var(--text); line-height:1.35; }
+  .cl-line{ font-size:12px; color:var(--text-dim); line-height:1.45; }
+  .cl-acts{ display:flex; gap:4px; margin-left:22px; flex-shrink:0; }
+  .cl-btn{
+    width:32px; height:32px; border-radius:8px; border:none; background:none; color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cl-btn:hover{ background:var(--border); color:var(--text); }
+  .msg-row.mine .cl-card{ margin-left:auto; }
+
+  /* Forwarded message card */
+  .fwd-card{ margin-top:6px; border-left:2px solid var(--border); padding:2px 0 2px 12px; max-width:min(100%,560px); text-align:left; }
+  .fwd-head{ display:flex; align-items:center; gap:8px; }
+  .fwd-head .avatar.xs{ width:22px; height:22px; font-size:8.5px; border:none; }
+  .fwd-author{ font-size:13.5px; font-weight:700; color:var(--text); }
+  .fwd-text{ font-size:14px; line-height:1.5; color:var(--text); margin-top:6px; white-space:pre-wrap; word-break:break-word; }
+  .fwd-text ul{ white-space:normal; margin:4px 0; padding-left:20px; }
+  .fwd-foot{ display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:11.5px; color:var(--text-faint); }
+  .fwd-foot i{ width:1px; height:11px; background:var(--border); }
+  .fwd-view{ background:none; border:none; padding:0; color:var(--accent); font-size:11.5px; font-weight:500; }
+  .fwd-view:hover{ text-decoration:underline; }
+  .msg-row.mine .fwd-card{ margin-left:auto; border-left:none; border-right:2px solid var(--border); padding:2px 12px 2px 0; }
+  .msg-row.mine .fwd-head, .msg-row.mine .fwd-foot{ justify-content:flex-end; }
+  .msg-row.mine .fwd-text{ text-align:right; }
+  .fwd-preview{
+    font-size:12.5px; color:var(--text-dim); background:var(--surface-alt); border-left:3px solid var(--accent);
+    border-radius:6px; padding:8px 10px; margin-bottom:10px; white-space:pre-wrap; word-break:break-word;
+  }
+
+  /* Jump-to-message highlight */
+  .msg-row.flash{ animation:msgFlash 1.9s ease-out; }
+  @keyframes msgFlash{ 0%,35%{ background:var(--accent-dim); box-shadow:0 0 0 6px var(--accent-dim); } 100%{ background:transparent; box-shadow:0 0 0 6px transparent; } }
+
+  /* ---------- Composer polish: one unified, compact surface ---------- */
+  .composer{ padding:10px 20px 6px; background:var(--surface); }
+  .composer-box{
+    border:1px solid var(--border); border-radius:14px; background:var(--surface);
+    padding:8px 8px 6px 14px; box-shadow:0 1px 2px rgba(20,25,40,0.04);
+  }
+  .composer-box:focus-within{ border-color:var(--accent); box-shadow:0 0 0 2px rgba(47,94,255,0.10); }
+  .composer textarea{ font-size:14px; line-height:1.5; padding:2px 0; min-height:24px; max-height:160px; }
+  .composer-toolbar{ border-top:none; margin-top:0; padding-top:2px; gap:6px; }
+  .composer-tools-left{ gap:2px; }
+  .composer-toolbar .icon-btn{ width:28px; height:28px; color:var(--text-faint); }
+  .composer-toolbar .icon-btn svg{ width:16px; height:16px; }
+  .composer-toolbar .icon-btn:hover{ background:var(--surface-alt); color:var(--text-dim); }
+  .composer-toolbar .icon-btn.recording{ background:rgba(224,67,61,0.14); color:var(--danger); }
+  .quick-replies-btn{
+    display:flex; align-items:center; gap:5px; border:none; background:transparent; color:var(--text-faint);
+    font-size:12px; font-weight:600; padding:5px 8px; border-radius:8px; margin-left:4px;
+  }
+  .quick-replies-btn:hover{ background:var(--surface-alt); color:var(--text-dim); border:none; }
+  .quick-replies-btn svg{ flex-shrink:0; }
+
+  .composer-hint{
+    display:flex; flex-wrap:wrap; align-items:center; gap:2px 12px; margin-top:6px; padding:0 4px;
+    font-size:10.5px; color:var(--text-faint);
+  }
+  .composer-hint kbd{
+    font-family:inherit; font-size:10px; font-weight:500; background:transparent; color:var(--text-faint);
+    border:1px solid var(--border); border-radius:4px; padding:0 4px;
+  }
+
+  .popover-item.format-item{ min-width:176px; padding:6px 8px; font-size:12.5px; gap:9px; }
+  .format-icon{ width:22px; height:22px; border-radius:6px; font-size:12px; }
+  .format-keys{ font-size:10.5px; padding-left:12px; }
+
+  @media (max-width: 900px){
+    .composer{ padding:8px 12px 6px; }
+    .quick-replies-btn .qr-text{ display:none; }
+    .quick-replies-btn{ padding:5px 7px; }
+  }
+  @media (max-width: 700px){
+    .composer-hint .hint-item:nth-of-type(n+3){ display:none; }
+  }
+
   /* Attach menu */
   .popover.attach-menu{ min-width:230px; padding:6px; }
   .attach-menu-item{ padding:7px 8px; font-size:13.5px; font-weight:500; gap:12px; }
@@ -765,10 +941,53 @@
     background:rgba(20,25,40,0.65); color:#fff; font-size:9px; display:flex; align-items:center; justify-content:center; pointer-events:none;
   }
 
-  /* Sent messages: inline-level items must sit on the right like the text does */
-  .msg-row.mine .voice-msg, .msg-row.mine .msg-attachment, .msg-row.mine .file-card{
-    display:flex; width:fit-content; margin-left:auto;
+  /* Audio file player card */
+  .audio-card{
+    display:flex; flex-direction:column; gap:10px; margin-top:6px; width:340px; max-width:100%;
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:12px 14px 12px; text-align:left;
+    box-shadow:0 1px 2px rgba(20,25,40,0.05);
   }
+  .ac-head{ display:flex; align-items:center; gap:10px; }
+  .ac-tile{
+    width:36px; height:36px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    background:var(--accent-dim); color:var(--accent);
+  }
+  .ac-main{ flex:1; min-width:0; }
+  .ac-name{ font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ac-meta{ font-size:11px; color:var(--text-faint); margin-top:1px; }
+  .ac-dl{
+    width:30px; height:30px; border-radius:8px; color:var(--text-dim); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    text-decoration:none; border:1px solid var(--border);
+  }
+  .ac-dl:hover{ color:var(--accent); border-color:var(--accent); background:var(--accent-dim); }
+  .ac-controls{ display:flex; align-items:center; gap:10px; }
+  .ac-play{
+    width:34px; height:34px; border-radius:50%; border:none; background:var(--accent); color:#fff; padding:0;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 2px 6px rgba(47,94,255,0.3);
+    transition:transform .12s, filter .12s;
+  }
+  .ac-play:hover{ filter:brightness(1.08); transform:scale(1.05); }
+  .ac-play:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .ac-play .ic-pause{ display:none; }
+  .audio-card.playing .ic-play{ display:none; }
+  .audio-card.playing .ic-pause{ display:block; }
+  /* waveform doubles as the seek bar: bars are a mask over a progress gradient */
+  .ac-seek{
+    -webkit-appearance:none; appearance:none; flex:1; min-width:60px; height:28px; border-radius:0; outline:none; cursor:pointer; margin:0;
+    background:linear-gradient(to right, var(--accent) var(--p, 0%), var(--wave-idle, #c5cbd8) var(--p, 0%));
+    -webkit-mask:var(--wave) center / 100% 100% no-repeat; mask:var(--wave) center / 100% 100% no-repeat;
+  }
+  .ac-seek:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .ac-seek::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:2px; height:28px; background:transparent; }
+  .ac-seek::-moz-range-thumb{ width:2px; height:28px; background:transparent; border:none; }
+  .ac-time{ font-size:11px; color:var(--text-dim); font-variant-numeric:tabular-nums; white-space:nowrap; min-width:64px; text-align:right; }
+  .ac-speed{
+    flex-shrink:0; min-width:38px; font-size:11px; font-weight:700; color:var(--text-dim); background:var(--surface-alt);
+    border:1px solid var(--border); border-radius:12px; padding:3px 8px;
+  }
+  .ac-speed:hover{ border-color:var(--accent); color:var(--accent); }
+  .audio-card.error{ opacity:.65; }
+  .msg-row.mine .audio-card{ margin-left:auto; }
 
   /* Media in messages */
   .msg-video{ display:block; max-width:300px; max-height:220px; border-radius:10px; border:1px solid var(--border); margin-top:6px; background:#000; }
@@ -961,6 +1180,10 @@
     display:inline-flex; align-items:center; gap:10px; margin-top:6px; background:var(--surface-alt);
     border:1px solid var(--border); border-radius:22px; padding:6px 14px 6px 6px; min-width:220px; text-align:left;
   }
+  /* Sent messages: inline-level items sit on the right, like the text does */
+  .msg-row.mine .voice-msg, .msg-row.mine .msg-attachment, .msg-row.mine .file-card{
+    display:flex; width:fit-content; margin-left:auto;
+  }
   .voice-play{
     width:32px; height:32px; border-radius:50%; border:none; background:var(--accent); color:#fff;
     display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:0;
@@ -968,7 +1191,7 @@
   .voice-play:disabled{ background:var(--border); cursor:not-allowed; }
   .voice-track{ position:relative; flex:1; height:22px; display:flex; align-items:center; gap:2px; min-width:90px; }
   .voice-bars{ position:absolute; inset:0; display:flex; align-items:center; gap:2px; }
-  .voice-bars span{ flex:1; background:var(--border); border-radius:2px; }
+  .voice-bars span{ flex:1; background:var(--text-faint); opacity:.5; border-radius:2px; }
   .voice-track .voice-progress{ position:absolute; inset:0; display:flex; align-items:center; gap:2px; clip-path:inset(0 100% 0 0); }
   .voice-progress span{ flex:1; background:var(--accent); border-radius:2px; }
   .voice-dur{ font-size:11.5px; font-weight:600; color:var(--text-dim); font-variant-numeric:tabular-nums; min-width:32px; text-align:right; }
@@ -1111,6 +1334,7 @@
     background:var(--surface-alt); border:1px solid var(--border); border-radius:9px;
     padding:9px 4px; color:var(--text-dim); font-size:10.5px; font-weight:600;
   }
+  .detail-action-btn[hidden]{ display:none; }
   .detail-action-btn:hover{ color:var(--accent); border-color:var(--accent); }
 
   .detail-block{ padding:16px 20px; border-bottom:1px solid var(--border); }
@@ -1238,17 +1462,6 @@
       </button>
     </div>
 
-    <div class="sidebar-actions" id="sidebarActions">
-      <button class="sidebar-action-btn" id="createGroupBtn" hidden>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-        New Group
-      </button>
-      <button class="sidebar-action-btn" id="createUserBtn" hidden>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-        New User
-      </button>
-    </div>
-
     <div class="sidebar-scroll">
       <div class="search-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1257,12 +1470,10 @@
 
       <div class="chat-tabs">
         <button class="chat-tab active">All</button>
-        <button class="chat-tab">Unread <span class="tab-count">3</span></button>
+        <button class="chat-tab">Unread <span class="tab-count" id="unreadTabCount">0</span></button>
         <button class="chat-tab">Mentions</button>
       </div>
       <div class="chat-scope-row">
-        <button class="scope-pill">Channels</button>
-        <button class="scope-pill">Direct</button>
         <div class="scope-actions">
           <button class="icon-btn" title="New message"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg></button>
           <button class="icon-btn" title="Filter"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
@@ -1274,23 +1485,6 @@
 
       <div class="nav-section-title" id="groupsTitle" hidden>Groups</div>
       <div id="groupsList"></div>
-
-      <div class="nav-section-title">Channels</div>
-      <div class="conv-item">
-        <div class="channel-hash">#</div>
-        <div class="conv-meta">
-          <div class="conv-top-row"><span class="conv-name">sales-team</span><span class="conv-time">10:42</span></div>
-          <div class="conv-preview">Umar: @Anu can you share the de…</div>
-        </div>
-        <span class="unread-badge">2</span>
-      </div>
-      <div class="conv-item">
-        <div class="channel-hash">#</div>
-        <div class="conv-meta">
-          <div class="conv-top-row"><span class="conv-name">support-escalations</span><span class="conv-time">Mon</span></div>
-          <div class="conv-preview">Ticket #4821 closed</div>
-        </div>
-      </div>
 
       <div class="nav-section-title">Direct Messages</div>
       <div id="convList"></div>
@@ -1335,7 +1529,8 @@
         <button class="icon-btn" id="callBtn" title="Call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></button>
         <button class="icon-btn" id="videoBtn" title="Video"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m23 7-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button>
         <button class="icon-btn" id="searchToggleBtn" title="Search in conversation"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-        <button class="icon-btn" title="Side panel" tabindex="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg></button>
+        <button class="icon-btn" id="pinsBtn" type="button" title="Pinned messages" aria-label="Pinned messages"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg><span class="icon-badge" id="pinsBadge" hidden>0</span></button>
+        <button class="icon-btn" id="notesBtn" type="button" title="Notes" aria-label="Notes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><span class="icon-badge" id="notesBadge" hidden>0</span></button>
         <button class="icon-btn" id="headerMoreBtn" title="More"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
       </div>
     </div>
@@ -1355,11 +1550,6 @@
     <div class="messages" id="messages"></div>
 
     <div class="composer" id="composerEl">
-      <div class="suggested-replies" id="suggestedRow" hidden>
-        <span class="suggested-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 4.4L6 9l4.1 1.6L12 15l1.9-4.4L18 9l-4.1-1.6L12 3Z"/></svg>Suggested</span>
-        <div class="suggested-chips" id="suggestedChips"></div>
-        <button class="suggested-dismiss" id="suggestedDismiss" title="Hide suggestions" aria-label="Hide suggestions"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      </div>
       <div class="reply-banner" id="replyBanner" hidden>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="reply-banner-text" id="replyBannerText"></span>
@@ -1382,13 +1572,12 @@
           <div class="composer-toolbar" id="composerToolbar">
             <div class="composer-tools-left">
               <input type="file" id="fileInput" multiple style="display:none">
-              <button class="icon-btn fmt-btn" id="formatBtn" title="Text formatting" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></button>
-              <span class="composer-divider"></span>
+              <button class="icon-btn fmt-btn" id="formatBtn" title="Text formatting" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></button>
               <button class="icon-btn" id="attachBtn" title="Attach files" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
               <button class="icon-btn" id="emojiBtn" title="Emoji" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
               <button class="icon-btn" id="mentionBtn" title="Mention someone (@)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-5.5 8.28"/></svg></button>
               <button class="icon-btn" id="micBtn" title="Record voice message" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></button>
-              <button class="quick-replies-btn" id="quickRepliesBtn" title="Quick replies" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Quick replies</button>
+              <button class="quick-replies-btn" id="quickRepliesBtn" title="Quick replies" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span class="qr-text">Quick replies</span></button>
             </div>
             <div class="composer-tools-right">
               <span class="char-count" id="charCount"></span>
@@ -1399,18 +1588,21 @@
           </div>
         </div>
       </div>
-      <div class="composer-hint"><span><kbd>Enter</kbd> send</span><span><kbd>Shift</kbd>+<kbd>Enter</kbd> new line</span><span><kbd>@</kbd> mention</span><span><kbd>/</kbd> commands</span><span><kbd>:</kbd> emoji</span><span class="hint-secure">End-to-end encrypted</span></div>
+      <div class="composer-hint"><span class="hint-item"><kbd>Enter</kbd> send</span><span class="hint-item"><kbd>Shift</kbd>+<kbd>Enter</kbd> new line</span><span class="hint-item"><kbd>@</kbd> mention</span><span class="hint-item"><kbd>/</kbd> commands</span><span class="hint-item"><kbd>:</kbd> emoji</span></div>
     </div>
   </main>
 
   <!-- ============ DETAIL PANEL ============ -->
   <aside class="detail">
+    <div id="detailProfile">
     <div class="detail-tabs">
-      <button class="detail-tab active" tabindex="-1">Details</button>
-      <button class="detail-tab" tabindex="-1">Files</button>
-      <button class="detail-tab" tabindex="-1">Threads</button>
-      <button class="detail-tab" tabindex="-1">Calls</button>
+      <button class="detail-tab active" type="button" data-tab="details">Details</button>
+      <button class="detail-tab" type="button" data-tab="files">Files</button>
+      <button class="detail-tab" type="button" data-tab="threads">Threads</button>
+      <button class="detail-tab" type="button" data-tab="calls">Calls</button>
     </div>
+    <div id="detailTabPane" class="detail-tab-pane" hidden></div>
+    <div id="detailDetailsPane">
     <div class="detail-header">
       <button class="icon-btn detail-close-btn" id="detailCloseBtn" title="Close profile">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1441,17 +1633,15 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         Mute
       </button>
-      <button class="detail-action-btn" tabindex="-1">
+      <button class="detail-action-btn" id="detailAddBtn" type="button" title="Add members">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
         Add
       </button>
     </div>
 
     <div class="detail-block">
-      <div class="block-head"><div class="detail-block-title">Members (3)</div><span class="block-link">Manage</span></div>
-      <div class="member-row"><div class="avatar avatar-1 sm">MC</div><div class="member-name">Marcus Chen</div><span class="member-role">Supervisor</span></div>
-      <div class="member-row"><div class="avatar avatar-5 sm">RP</div><div class="member-name">Raj Patel</div><span class="member-role">Member</span></div>
-      <div class="member-row"><div class="avatar avatar-4 sm">SP</div><div class="member-name">Saurabh Powar</div><span class="member-role">In a call</span></div>
+      <div class="block-head"><div class="detail-block-title" id="detailMembersTitle">Members</div><button class="block-link" id="detailManageLink" type="button">Manage</button></div>
+      <div id="detailMembersRows"></div>
     </div>
 
     <div class="detail-block" id="detailAboutBlock">
@@ -1461,32 +1651,12 @@
 
     <div class="detail-block">
       <div class="detail-block-title">Shared Files</div>
-      <a class="file-item js-file" href="javascript:void(0)" data-filename="Q3-Architecture-Review.pdf">
-        <div class="file-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
-        <div style="flex:1; min-width:0;">
-          <div class="file-name">Q3-Architecture-Review.pdf</div>
-          <div class="file-size">2.4 MB · Yesterday</div>
-        </div>
-      </a>
-      <a class="file-item js-file" href="javascript:void(0)" data-filename="Migration-Rollout-Plan.xlsx">
-        <div class="file-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
-        <div style="flex:1; min-width:0;">
-          <div class="file-name">Migration-Rollout-Plan.xlsx</div>
-          <div class="file-size">840 KB · Monday</div>
-        </div>
-      </a>
+      <div id="detailFilesRows"></div>
     </div>
 
     <div class="detail-block">
-      <div class="block-head"><div class="detail-block-title">Recent Calls</div><span class="block-link">View all</span></div>
-      <div class="call-row">
-        <div class="call-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>
-        <div class="call-name">Umar Ansari · 4m 12s</div><span class="call-when">Yesterday</span>
-      </div>
-      <div class="call-row">
-        <div class="call-icon missed"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>
-        <div class="call-name">Saurabh Powar · Missed</div><span class="call-when">Aug 18</span>
-      </div>
+      <div class="block-head"><div class="detail-block-title">Recent Calls</div></div>
+      <div id="detailCallsRows"></div>
     </div>
 
     <div class="detail-block" style="border-bottom:none;">
@@ -1494,6 +1664,11 @@
       <div class="detail-row"><span>Encryption</span><b>AES-256 · E2E</b></div>
       <div class="detail-row"><span>Retention policy</span><b>90 days</b></div>
     </div>
+    </div>
+    </div>
+    <div id="detailMembers" hidden></div>
+    <div id="detailPins" class="side-panel" hidden></div>
+    <div id="detailNotes" class="side-panel" hidden></div>
   </aside>
 
 </div>
@@ -1517,53 +1692,297 @@
   var contacts = [
     { id:"marcus",  name:"Marcus Chen",   role:"VP of Engineering", avatarClass:"avatar-1", initials:"MC", status:"online",  pinned:true,
       department:"Platform Engineering", project:"Q3 Platform Rollout", availableTime:"9:00 AM – 6:00 PM", reportsTo:"CTO Office",
-      directoryType:"Team Lead", username:"mchen", commStatus:"ready" },
+      directoryType:"Team Lead", username:"mchen", phone:"(415) 555-0142", commStatus:"ready" },
     { id:"priya",   name:"Priya Anand",   role:"Design Director",   avatarClass:"avatar-2", initials:"PA", status:"online",  pinned:true,
       department:"Design", project:"Dashboard Redesign", availableTime:"9:30 AM – 5:30 PM", reportsTo:"VP of Product",
-      directoryType:"Team Lead", username:"panand", commStatus:"ready" },
+      directoryType:"Team Lead", username:"panand", phone:"(415) 555-0117", commStatus:"ready" },
     { id:"jordan",  name:"Jordan Blake",  role:"DevOps Lead",       avatarClass:"avatar-3", initials:"JB", status:"away",    pinned:false,
       department:"DevOps", project:"Staging Pipeline Hardening", availableTime:"8:00 AM – 4:00 PM", reportsTo:"VP of Engineering",
-      directoryType:"Agent", username:"jblake", commStatus:"break" },
-    { id:"lena",    name:"Lena Ortiz",    role:"Finance Partner",   avatarClass:"avatar-4", initials:"LO", status:"offline", pinned:false,
-      department:"Finance", project:"Q3 Budget Review", availableTime:"9:00 AM – 5:00 PM", reportsTo:"CFO Office",
-      directoryType:"Agent", username:"lortiz", commStatus:"loggedoff" },
+      directoryType:"Agent", username:"jblake", phone:"(415) 555-0163", commStatus:"break" },
+    { id:"aisha",   name:"Aisha Rahman",  role:"Support Team Lead", avatarClass:"avatar-4", initials:"AR", status:"online",  pinned:false,
+      department:"Customer Support", project:"Escalation Queue", availableTime:"7:00 AM – 3:00 PM", reportsTo:"Head of Support",
+      directoryType:"Team Lead", username:"arahman", phone:"(415) 555-0189", commStatus:"ready" },
     { id:"raj",     name:"Raj Patel",     role:"Security Officer",  avatarClass:"avatar-5", initials:"RP", status:"online",  pinned:false,
       department:"Security", project:"SOC2 Audit Prep", availableTime:"9:00 AM – 6:00 PM", reportsTo:"CTO Office",
-      directoryType:"Agent", username:"rpatel", commStatus:"busy" },
+      directoryType:"Agent", username:"rpatel", phone:"(415) 555-0155", commStatus:"busy" },
+    { id:"lena",    name:"Lena Ortiz",    role:"Finance Partner",   avatarClass:"avatar-4", initials:"LO", status:"offline", pinned:false,
+      department:"Finance", project:"Q3 Budget Review", availableTime:"9:00 AM – 5:00 PM", reportsTo:"CFO Office",
+      directoryType:"Agent", username:"lortiz", phone:"(415) 555-0128", commStatus:"loggedoff" },
     { id:"claire",  name:"Claire Novak",  role:"Legal Counsel",     avatarClass:"avatar-6", initials:"CN", status:"offline", pinned:false,
       department:"Legal", project:"Vendor MSA Review", availableTime:"10:00 AM – 6:00 PM", reportsTo:"General Counsel",
-      directoryType:"Agent", username:"cnovak", commStatus:"loggedoff" }
+      directoryType:"Agent", username:"cnovak", phone:"(415) 555-0171", commStatus:"loggedoff" },
+    { id:"david",   name:"David Kim",     role:"IT Vendor Support", avatarClass:"avatar-3", initials:"DK", status:"away",    pinned:false,
+      department:"Northwind IT Services (External)", project:"VPN Certificate Renewal", availableTime:"8:00 AM – 4:00 PM", reportsTo:"Vendor Account Manager",
+      directoryType:"External", username:"dkim.ext", phone:"(415) 555-0194", commStatus:"break" },
+    { id:"grp-rollout", name:"Rollout Team", role:"5 members", avatarClass:"avatar-1", initials:"#", status:"online", pinned:false,
+      isGroup:true, members:["marcus","priya","jordan","raj"], directoryType:"Team", commStatus:"ready" },
+    { id:"grp-support", name:"Support Escalations", role:"4 members", avatarClass:"avatar-5", initials:"#", status:"online", pinned:false,
+      isGroup:true, members:["aisha","david","claire"], directoryType:"Team", commStatus:"ready" }
   ];
 
-  var seedMessages = {
-    marcus: [
-      { from:"them", text:"Morning — did you get a chance to review the Q3 platform architecture doc?", time:"9:02 AM", reactions:[{emoji:"👍",count:2}],
-        threadReply:{ count:3, label:"Last reply 2h ago" } },
-      { from:"me",   text:"Yes, went through it last night. The service-mesh section looks solid.", time:"9:05 AM" },
-      { from:"them", text:"Great. One concern from the security review — we still need sign-off on the new auth gateway before rollout.", time:"9:06 AM", reactions:[{emoji:"👀",count:1},{emoji:"✅",count:3}] },
-      { from:"me",   text:"Agreed. I'll loop in Raj from security today and get that scheduled.", time:"9:08 AM",
-        callLog:{ title:"Outgoing call · 4m 12s", meta:"Sarah Kim → Marcus Chen · 9:15 AM" },
-        aiRecap:"Agreed to demo on Friday 3 PM. Marcus to send pricing sheet; Sarah to set up the sandbox account." },
-      { from:"them", text:"Perfect, thanks Sarah. Also sharing the updated rollout plan below.", time:"9:10 AM",
-        fileCard:{ name:"Rollout-Plan-v2.pdf", meta:"PDF · 1.4 MB" } }
-    ],
-    priya: [
-      { from:"them", text:"The new dashboard mocks are ready for review whenever you have time.", time:"Yesterday" },
-      { from:"me",   text:"Looking now — the nav restructure is a big improvement.", time:"Yesterday" }
-    ],
-    jordan: [
-      { from:"them", text:"Deployment pipeline for staging is green across all regions.", time:"Mon" }
-    ],
-    lena: [
-      { from:"them", text:"Q3 budget summary attached, let me know if numbers line up on your end.", time:"Mon" }
-    ],
-    raj: [
-      { from:"them", text:"Flagging: SOC2 audit prep kicks off next sprint, will need your input.", time:"Last week" }
-    ],
-    claire: [
-      { from:"them", text:"Redlines on the vendor MSA are ready for your review.", time:"Last week" }
-    ]
-  };
+  /* Demo data covering every feature: text formatting, links, mentions, reactions, threads, replies, pins,
+     call logs (incoming / outgoing / missed / video / group), AI recap, files, images, audio, video, voice notes,
+     polls, events, contact cards, stickers, forwards, system messages, drafts and unread badges. */
+  function buildSeedData(){
+    function pad(n){ return (n < 10 ? "0" : "") + n; }
+    function ymd(off){
+      var d = new Date(); d.setDate(d.getDate() + off);
+      return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    }
+    function b64(bytes){
+      var s = "", i;
+      for(i = 0; i < bytes.length; i += 8192){ s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192)); }
+      return btoa(s);
+    }
+    function wavUrl(seconds, notes){
+      var sr = 8000, n = sr * seconds, bytes = new Uint8Array(44 + n);
+      function w32(o, v){ bytes[o] = v & 255; bytes[o + 1] = (v >> 8) & 255; bytes[o + 2] = (v >> 16) & 255; bytes[o + 3] = (v >> 24) & 255; }
+      function w16(o, v){ bytes[o] = v & 255; bytes[o + 1] = (v >> 8) & 255; }
+      function ws(o, s){ for(var k = 0; k < s.length; k++) bytes[o + k] = s.charCodeAt(k); }
+      ws(0, "RIFF"); w32(4, 36 + n); ws(8, "WAVE"); ws(12, "fmt "); w32(16, 16); w16(20, 1); w16(22, 1);
+      w32(24, sr); w32(28, sr); w16(32, 1); w16(34, 8); ws(36, "data"); w32(40, n);
+      for(var i = 0; i < n; i++){
+        var t = i / sr, f = notes[Math.floor(t * 4) % notes.length];
+        var env = Math.sin(Math.PI * ((t * 4) % 1));
+        bytes[44 + i] = 128 + Math.round(Math.sin(2 * Math.PI * f * t) * 50 * env);
+      }
+      return "data:audio/wav;base64," + b64(bytes);
+    }
+    function imgUrl(w, h, c1, c2, title, sub){
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      var x = c.getContext("2d");
+      var g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, c1); g.addColorStop(1, c2);
+      x.fillStyle = g; x.fillRect(0, 0, w, h);
+      x.fillStyle = "rgba(255,255,255,0.18)";
+      x.beginPath(); x.arc(w * 0.82, h * 0.25, h * 0.34, 0, 7); x.fill();
+      x.beginPath(); x.arc(w * 0.15, h * 0.95, h * 0.45, 0, 7); x.fill();
+      x.fillStyle = "#ffffff"; x.textBaseline = "middle";
+      x.font = "700 " + Math.round(h * 0.13) + "px Inter, system-ui, sans-serif"; x.fillText(title, w * 0.07, h * 0.46);
+      x.globalAlpha = 0.85;
+      x.font = "500 " + Math.round(h * 0.075) + "px Inter, system-ui, sans-serif"; x.fillText(sub, w * 0.07, h * 0.62);
+      return c.toDataURL("image/jpeg", 0.8);
+    }
+    function stickerUrl(text, color){
+      var c = document.createElement("canvas");
+      drawSticker(c, { img:null, color:color, text:text });
+      return stickerDataUrl(c);
+    }
+    function bytesOf(dataUrl){ return Math.round(dataUrl.length * 0.75); }
+
+    function mk(from, text, time, extra){
+      var o = { from:from, text:text, time:time };
+      if(extra){ for(var k in extra){ o[k] = extra[k]; } }
+      return o;
+    }
+    function T(text, time, extra){ return mk("them", text, time, extra); }
+    function Y(text, time, extra){ return mk("me", text, time, extra); }
+    function sys(text, time){ return { from:"them", system:true, text:text, time:time }; }
+    function file(id, name, size, type, dataUrl){ return { id:id, name:name, size:size, type:type, dataUrl:dataUrl || null }; }
+    function person(id, name, role, department, initials, avatarClass, username){
+      return { id:id, name:name, role:role, department:department, initials:initials, avatarClass:avatarClass, username:username };
+    }
+    function opt(i, text, votes){ return { id:"o" + i, text:text, votes:votes }; }
+
+    var MYPH = "(415) 555-0100";
+    var imgHero = imgUrl(360, 220, "#2f5eff", "#7c3aed", "Dashboard v3", "Hero export · 2x");
+    var imgScan = imgUrl(360, 220, "#0891b2", "#17a673", "Vendor MSA", "Signed copy · page 1");
+    var imgChart = imgUrl(360, 220, "#e3a532", "#e0433d", "Q3 Rollout", "Burn-down chart");
+    var stkParty = stickerUrl("🎉", "#17a673");
+    var stkLgtm = stickerUrl("LGTM", "#7c3aed");
+    var stkThumb = stickerUrl("👍", "#2f5eff");
+    var stkFire = stickerUrl("🔥", "#e0433d");
+    var stkThanks = stickerUrl("Thanks!", "#e3a532");
+    var voiceA = wavUrl(4, [392, 440, 494, 523]);
+    var voiceB = wavUrl(5, [330, 392, 349, 440, 392]);
+    var voiceC = wavUrl(3, [523, 494, 440]);
+    var audioNotes = wavUrl(6, [262, 330, 392, 330, 294, 349]);
+
+    var messages = {
+      marcus: [
+        T("Morning — did you get a chance to review the Q3 platform architecture doc?", "3d 9:02 AM",
+          { reactions:[{ emoji:"👍", count:2 }], threadReply:{ count:3, label:"Last reply 2h ago" } }),
+        Y("Yes, went through it last night. The **service-mesh** section looks solid.", "3d 9:05 AM"),
+        T("Great. One concern from the security review — we still need sign-off on the new auth gateway before rollout.", "3d 9:06 AM",
+          { id:"seed-m3", pinned:true, reactions:[{ emoji:"👀", count:1 }, { emoji:"✅", count:3 }] }),
+        Y("Agreed. I'll loop in Raj from security today and get that scheduled.", "3d 9:08 AM",
+          { callLog:{ direction:"outgoing", kind:"voice", status:"answered", title:"You called Marcus Chen", to:"(415) 555-0142", lasted:"4 min 12 s", endedAt:"9:15 AM", answeredBy:"Marcus Chen" },
+            aiRecap:"Agreed to demo on Friday 3 PM. Marcus to send the pricing sheet; Sarah to set up the sandbox account." }),
+        Y("Quick recap of what we agreed:\n- Auth gateway sign-off by **Thursday**\n- _Raj_ owns the SOC2 checklist\n- Rollout starts once both are done", "2d 4:30 PM",
+          { reactions:[{ emoji:"✅", count:2 }] }),
+        T("Sounds right 👍 — here is the health-check snippet for the gateway:\n```\ncurl -s https://gateway.internal/health | jq .status\n```", "2d 4:41 PM",
+          { reactions:[{ emoji:"🔥", count:1 }] }),
+        Y("Perfect, adding it to the runbook. `gateway.internal` is only reachable on VPN, right?", "2d 4:44 PM",
+          { replyTo:{ author:"Marcus Chen", text:"Sounds right 👍 — here is the health-check snippet for the gateway:" } }),
+        T("Correct — VPN only. Ping @Raj if you need access. Details: https://runbooks.example.com/gateway", "2d 4:50 PM"),
+        T("", "1d 10:00 AM",
+          { callLog:{ direction:"incoming", kind:"voice", status:"answered", title:"Marcus called you", to:MYPH, lasted:"12 min 5 s", endedAt:"10:12 AM", answeredBy:"Sarah Kim" } }),
+        Y("", "1d 5:30 PM",
+          { callLog:{ direction:"outgoing", kind:"video", status:"missed", title:"You video-called Marcus Chen", to:"(415) 555-0142", endedAt:"5:31 PM" } }),
+        T("Sorry, was in a meeting. Free now — ping me when you are ready.", "1d 5:45 PM"),
+        Y("", "1d 5:47 PM", { sticker:{ dataUrl:stkThumb } }),
+        T("Morning! Is the sign-off with Raj scheduled?", "9:02 AM"),
+        Y("Yes — Thursday 3 PM. I sent the invite and _attached_ the burn-down chart below.", "9:08 AM",
+          { attachments:[ file("seed-att-chart", "rollout-burndown.jpg", bytesOf(imgChart), "image/jpeg", imgChart) ],
+            reactions:[{ emoji:"🎉", count:2 }] }),
+        T("Perfect, thanks Sarah. Also sharing the updated rollout plan below.", "9:10 AM",
+          { fileCard:{ name:"Rollout-Plan-v2.pdf", meta:"PDF · 1.4 MB" } })
+      ],
+
+      priya: [
+        T("", "6d 3:00 PM",
+          { callLog:{ direction:"incoming", kind:"voice", status:"answered", title:"Priya called you", to:MYPH, lasted:"18 min 40 s", endedAt:"3:19 PM", answeredBy:"Sarah Kim" } }),
+        T("https://figma.example.com/file/dashboard-v3 — latest mocks from our call", "6d 3:22 PM"),
+        Y("Thanks! They look great. Can you export the hero image?", "6d 3:25 PM"),
+        T("Here is the hero export 👇", "5d 10:10 AM",
+          { attachments:[ file("seed-att-hero", "dashboard-hero.jpg", bytesOf(imgHero), "image/jpeg", imgHero) ], reactions:[{ emoji:"😍", count:1 }] }),
+        T("The new dashboard mocks are ready for review whenever you have time.", "1d 10:30 AM",
+          { reactions:[{ emoji:"👀", count:1 }] }),
+        Y("Looking now — the nav restructure is a big improvement.", "1d 10:34 AM",
+          { myReaction:"🙏", reactions:[{ emoji:"🙏", count:1 }] }),
+        T("", "1d 11:02 AM",
+          { poll:{ question:"Which dashboard layout should we ship?", multi:false, options:[
+              opt(0, "A — Compact cards", ["priya", "me"]), opt(1, "B — Wide table", ["marcus"]), opt(2, "C — Hybrid", []) ] } }),
+        T("", "1d 11:05 AM", { sticker:{ dataUrl:stkParty } }),
+        T("Loop in Aisha for the support copy 👇", "1d 2:15 PM",
+          { contactCard:person("aisha", "Aisha Rahman", "Support Team Lead", "Customer Support", "AR", "avatar-4", "arahman") }),
+        T("", "8:55 AM", { voice:{ url:voiceA, duration:4 } }),
+        Y("Got it — will review before standup ✅", "9:20 AM")
+      ],
+
+      jordan: [
+        T("Deployment pipeline for staging is green across all regions.", "2d 9:00 AM"),
+        T("FYI — forwarding this from the platform thread so you have the context.", "2d 9:02 AM",
+          { fwd:{ convId:"marcus", msgId:"seed-m3", author:"Marcus Chen", initials:"MC", avatarClass:"avatar-1", source:"Direct message",
+                  text:"Great. One concern from the security review — we still need sign-off on the new auth gateway before rollout." } }),
+        Y("", "2d 2:30 PM",
+          { event:{ title:"Pipeline hardening sync", date:ymd(1), start:"14:00", end:"14:45", location:"Room 4B / https://meet.example.com/pipeline",
+                    description:"Walk through the staging hardening checklist and assign owners.", rsvp:{ going:["me", "jordan"], maybe:[], no:[] } } }),
+        T("Recorded the standup notes — about 2 minutes.", "1d 4:10 PM",
+          { attachments:[ file("seed-att-audio", "standup-notes.wav", bytesOf(audioNotes), "audio/wav", audioNotes) ] }),
+        Y("", "1d 6:05 PM",
+          { callLog:{ direction:"outgoing", kind:"voice", status:"missed", title:"You called Jordan Blake", to:"(415) 555-0163", endedAt:"6:06 PM" } }),
+        T("Missed your call yesterday — was on the incident bridge.", "8:40 AM", { reactions:[{ emoji:"🙏", count:1 }] }),
+        T("Here is the incident walkthrough recording.", "8:42 AM",
+          { attachments:[ file("seed-att-video", "incident-walkthrough.mp4", 18400000, "video/mp4", null) ] }),
+        T("@Marcus can you approve the change request today? Steps: `deploy --canary` then _monitor_ for 15 min.", "8:50 AM")
+      ],
+
+      aisha: [
+        T("Hi Sarah! Quick heads-up — we had 3 escalations overnight.", "4d 1:00 PM"),
+        Y("Thanks Aisha. What are the priorities?", "4d 1:05 PM"),
+        T("1. Billing timeout (P1)\n2. SSO redirect loop (P2)\n3. Export CSV empty (P3)", "4d 1:07 PM",
+          { id:"seed-aisha-list", reactions:[{ emoji:"👀", count:2 }] }),
+        T("", "3d 9:15 AM",
+          { callLog:{ direction:"incoming", kind:"video", status:"answered", title:"Aisha video-called you", to:MYPH, lasted:"26 min 12 s", endedAt:"9:41 AM", answeredBy:"Sarah Kim" } }),
+        Y("", "3d 9:50 AM",
+          { poll:{ question:"Which fixes go into Friday's release?", multi:true, options:[
+              opt(0, "Billing timeout hotfix", ["me", "aisha", "marcus"]), opt(1, "SSO redirect config", ["aisha"]),
+              opt(2, "CSV export fix", ["me"]), opt(3, "Nothing — freeze", []) ] } }),
+        T("Voting is open until noon.", "3d 10:20 AM"),
+        T("Notes from the escalation review are in the doc.", "1d 9:00 AM",
+          { aiRecap:"P1 billing timeout fixed in v2.3.1. SSO loop needs a config change from Security. CSV export moved to next sprint." }),
+        Y("Approving the P1 hotfix now.", "9:30 AM",
+          { replyTo:{ author:"Aisha Rahman", text:"1. Billing timeout (P1) 2. SSO redirect loop (P2) 3. Export CSV empty (P3)" } }),
+        T("", "9:32 AM", { sticker:{ dataUrl:stkThanks } })
+      ],
+
+      raj: [
+        T("Flagging: SOC2 audit prep kicks off next sprint, will need your input.", "8d 10:00 AM"),
+        Y("Happy to help. What do you need from Product?", "8d 10:10 AM"),
+        T("__Deliverables__:\n- Data-flow diagrams\n- Vendor risk register\n- _Access review_ evidence", "8d 10:15 AM"),
+        Y("Checklist attached — please confirm nothing is missing.", "7d 2:00 PM",
+          { attachments:[ file("seed-att-soc2", "SOC2-evidence-checklist.pdf", 524288, "application/pdf", null) ] }),
+        T("Use `git log --since=30.days` for the access review. Full guide: https://wiki.example.com/soc2/access-review", "4d 11:00 AM"),
+        T("Reminder: evidence freeze is **Friday 6 PM**.", "2d 5:00 PM",
+          { id:"seed-raj-freeze", pinned:true, reactions:[{ emoji:"✅", count:2 }] }),
+        T("Marcus asked me to sign off on the auth gateway — free Thursday 3 PM?", "9:45 AM"),
+        Y("Thursday 3 PM works. Sending an invite.", "9:47 AM")
+      ],
+
+      lena: [
+        T("Q3 budget summary attached, let me know if numbers line up on your end.", "9d 3:00 PM",
+          { attachments:[ file("seed-att-budget", "Q3-Budget-Summary.xlsx", 860160, "application/vnd.ms-excel", null) ] }),
+        Y("Numbers look right. One question on **Opex** line 14.", "9d 3:30 PM"),
+        T("", "8d 9:00 AM", { voice:{ url:voiceB, duration:5 } }),
+        Y("Thanks, that clears it up 🙏", "8d 9:10 AM", { myReaction:"👍", reactions:[{ emoji:"👍", count:1 }] }),
+        T("", "5d 4:00 PM",
+          { poll:{ question:"When should we hold the budget review?", multi:false, options:[
+              opt(0, "Mon 10:00 AM", ["lena"]), opt(1, "Tue 2:00 PM", ["me"]), opt(2, "Wed 11:00 AM", []) ] } }),
+        Y("Tuesday works for me.", "5d 4:20 PM"),
+        T("Signing off for the day — let's finalize tomorrow.", "1d 6:00 PM")
+      ],
+
+      claire: [
+        T("Redlines on the vendor MSA are ready for your review.", "14d 10:00 AM",
+          { attachments:[ file("seed-att-msa", "Vendor-MSA-redlines.docx", 1258291, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", null) ] }),
+        Y("Reviewing now. Section 7 (liability cap) is my main concern.", "13d 11:30 AM"),
+        T("__Key points__:\n- Liability cap: **12 months** of fees\n- Auto-renewal: 60 days notice\n- _Data processing addendum_ required", "13d 11:45 AM"),
+        Y("Section 7 is fine with me. Let's proceed.", "10d 2:00 PM"),
+        T("", "10d 2:30 PM",
+          { event:{ title:"Vendor MSA signing call", date:ymd(3), start:"11:00", end:"11:30", location:"https://meet.example.com/msa-signing",
+                    description:"Final signatures — bring authorised signatories.", rsvp:{ going:["claire"], maybe:["me"], no:[] } } }),
+        T("Signed copy attached ✅", "6d 9:00 AM",
+          { attachments:[ file("seed-att-scan", "signed-msa-p1.jpg", bytesOf(imgScan), "image/jpeg", imgScan) ] }),
+        Y("", "6d 9:05 AM", { sticker:{ dataUrl:stkLgtm } }),
+        T("Filed in the contracts folder.", "9:00 AM")
+      ],
+
+      david: [
+        T("Hi Sarah — this is David from Northwind IT. Your VPN certificates expire in 14 days.", "3d 2:00 PM"),
+        Y("Thanks David. Can you send the renewal steps?", "3d 2:04 PM"),
+        T("https://kb.northwind.example/vpn-cert-renewal — steps are here, takes about 10 minutes.", "3d 2:10 PM"),
+        T("For approvals, please loop in Raj:", "3d 2:12 PM",
+          { contactCard:person("raj", "Raj Patel", "Security Officer", "Security", "RP", "avatar-5", "rpatel") }),
+        T("", "1d 3:00 PM",
+          { callLog:{ direction:"incoming", kind:"voice", status:"answered", title:"David called you", to:MYPH, lasted:"6 min 41 s", endedAt:"3:07 PM", answeredBy:"Sarah Kim" } }),
+        Y("Renewal done ✅ Thanks for the quick help!", "9:15 AM", { reactions:[{ emoji:"👍", count:1 }] })
+      ],
+
+      "grp-rollout": [
+        sys("Sarah Kim created the group", "5d 9:00 AM"),
+        sys("Sarah Kim added Marcus Chen, Priya Anand, Jordan Blake and Raj Patel", "5d 9:00 AM"),
+        Y("Welcome everyone 👋 This is our channel for the Q3 rollout. Please keep updates here.", "5d 9:05 AM"),
+        T("**Marcus:** Thanks Sarah — looping in the platform team now.", "5d 9:10 AM"),
+        Y("@everyone standup moved to **10:30 AM** tomorrow.", "4d 10:00 AM",
+          { pinned:true, reactions:[{ emoji:"✅", count:4 }] }),
+        T("**Priya:** Design freeze is Friday. Any objections?", "3d 3:00 PM"),
+        Y("", "3d 3:05 PM",
+          { poll:{ question:"Preferred rollout window?", multi:false, options:[
+              opt(0, "Tue 6 PM", ["marcus", "jordan"]), opt(1, "Wed 6 AM", ["priya", "me"]), opt(2, "Thu 6 PM", ["raj"]) ] } }),
+        Y("", "2d 11:00 AM",
+          { event:{ title:"Rollout go / no-go", date:ymd(2), start:"15:00", end:"16:00", location:"Main conference room",
+                    description:"Final readiness review before the production rollout.", rsvp:{ going:["me", "marcus", "priya"], maybe:["jordan"], no:["raj"] } } }),
+        Y("", "2d 11:20 AM", { callLog:{ direction:"outgoing", kind:"voice", status:"answered", title:"You started a group call", to:"Rollout Team", lasted:"9 min 30 s", endedAt:"11:30 AM", answeredBy:"Marcus Chen" } }),
+        T("**Jordan:** Staging is green ✅ Ready when you are.", "9:40 AM", { reactions:[{ emoji:"👍", count:3 }, { emoji:"🚀", count:2 }] }),
+        Y("Reminder for everyone 👇", "9:45 AM",
+          { fwd:{ convId:"raj", msgId:"seed-raj-freeze", author:"Raj Patel", initials:"RP", avatarClass:"avatar-5", source:"Direct message",
+                  text:"Reminder: evidence freeze is **Friday 6 PM**." } }),
+        T("", "9:50 AM", { sticker:{ dataUrl:stkFire } })
+      ],
+
+      "grp-support": [
+        sys("Sarah Kim created the group", "2d 7:50 AM"),
+        sys("Sarah Kim added Aisha Rahman, David Kim and Claire Novak", "2d 7:50 AM"),
+        T("**Aisha:** New P1 — billing timeouts for EU customers.", "2d 8:00 AM", { reactions:[{ emoji:"👀", count:3 }] }),
+        Y("On it. Who is on call?", "2d 8:05 AM"),
+        T("**David:** VPN cert renewal may be related — checking now.", "2d 8:07 AM"),
+        Y("", "2d 8:30 AM", { callLog:{ direction:"outgoing", kind:"video", status:"answered", title:"You started a group video call", to:"Support Escalations", lasted:"14 min 2 s", endedAt:"8:44 AM", answeredBy:"David Kim" } }),
+        T("**Aisha:** voice update while I drive 🚗", "1d 9:00 AM", { voice:{ url:voiceC, duration:3 } }),
+        Y("Post-mortem doc: https://docs.example.com/postmortem-billing", "9:00 AM")
+      ]
+    };
+
+    return {
+      messages:messages,
+      stickers:[
+        { id:"stk-seed-1", dataUrl:stkParty }, { id:"stk-seed-2", dataUrl:stkLgtm }, { id:"stk-seed-3", dataUrl:stkThumb },
+        { id:"stk-seed-4", dataUrl:stkFire }, { id:"stk-seed-5", dataUrl:stkThanks }
+      ],
+      unread:{ jordan:2, claire:1, aisha:1, "grp-rollout":3 },
+      drafts:{ lena:"Thanks Lena — I will review the numbers tonight and confirm by" },
+      recentEmoji:["👍", "🎉", "✅", "🔥", "🙏", "👀"]
+    };
+  }
 
   var botReplies = [
     "Understood — I'll follow up on that shortly.",
@@ -1579,13 +1998,18 @@
     { id:"qr2", label:"On it",      text:"On it — I'll get back to you shortly." },
     { id:"qr3", label:"Meeting",    text:"Can we set up a quick meeting to discuss this?" },
     { id:"qr4", label:"Looks good", text:"Looks good to me 👍" },
-    { id:"qr5", label:"Away",       text:"I'm away from my desk right now and will reply as soon as I'm back." }
+    { id:"qr5", label:"Away",       text:"I'm away from my desk right now and will reply as soon as I'm back." },
+    { id:"qr6", label:"Standup",    text:"I'll share my update in standup." },
+    { id:"qr7", label:"Follow up",  text:"Following up on this — any update?" },
+    { id:"qr8", label:"Approved",   text:"Approved ✅ — go ahead." }
   ];
 
-  var STORAGE_KEY = "nexus_chat_state_v10";
+  var STORAGE_KEY = "nexus_chat_state_v14";
   var state = loadState();
   (state.customContacts || []).forEach(function(cc){
-    if(!contacts.some(function(x){ return x.id === cc.id; })) contacts.push(cc);
+    var existing = contacts.filter(function(x){ return x.id === cc.id; })[0];
+    if(existing){ for(var k in cc){ existing[k] = cc[k]; } }
+    else { contacts.push(cc); }
   });
   var activeId = state.activeId || "marcus";
 
@@ -1597,9 +2021,37 @@
       if(raw) s = JSON.parse(raw);
     }catch(e){}
     if(!s){
-      s = { activeId:"marcus", messages:{}, role:"Agent" };
-      contacts.forEach(function(c){ s.messages[c.id] = seedMessages[c.id].slice(); });
+      var seed = buildSeedData();
+      s = { activeId:"marcus", messages:seed.messages, role:"Supervisor", stickers:seed.stickers,
+            unread:seed.unread, drafts:seed.drafts, recentEmoji:seed.recentEmoji };
+      var HR = 3600000, DAY = 86400000, nowT = Date.now();
+      s.notes = {
+        marcus: [
+          { id:"seed-note-m1", ts:nowT - 2*DAY - 3*HR, text:"Sign-off with Raj is Thursday 3 PM.\n- Bring the burn-down chart\n- Summarise the security review findings" },
+          { id:"seed-note-m2", ts:nowT - 5*HR, text:"Marcus prefers a short async update before meetings — keep it under 5 bullets." }
+        ],
+        "grp-rollout": [
+          { id:"seed-note-g1", ts:nowT - DAY - 2*HR, text:"Go / no-go criteria:\n1. Zero open P1 bugs\n2. Rollback tested in staging\n3. On-call rota confirmed" }
+        ],
+        raj: [
+          { id:"seed-note-r1", ts:nowT - 3*DAY, edited:true, text:"Raj is on PTO Oct 12–16. Hand over the migration checklist before then." }
+        ]
+      };
+      /* example delivery states on the latest message you sent in each conversation */
+      var seedStatus = { marcus:"delivered", priya:"sent", jordan:"delivered", aisha:"delivered", raj:"delivered",
+        lena:"undelivered", claire:"failed", david:"delivered", "grp-rollout":"delivered", "grp-support":"sent" };
+      Object.keys(seedStatus).forEach(function(id){
+        var arr = s.messages[id] || [];
+        for(var i = arr.length - 1; i >= 0; i--){
+          if(arr[i].from === "me" && !arr[i].callLog && !arr[i].system){ arr[i].status = seedStatus[id]; break; }
+        }
+      });
     }
+    if(!s.unread) s.unread = {};
+    if(!s.notes) s.notes = {};
+    Object.keys(s.messages).forEach(function(id){
+      (s.messages[id] || []).forEach(function(m){ if(m.status === "pending") m.status = "failed"; });
+    });
     if(!s.drafts) s.drafts = {};
     if(!s.recentEmoji) s.recentEmoji = [];
     if(!s.stickers) s.stickers = [];
@@ -1642,8 +2094,6 @@
   var roleBtn = document.getElementById("roleBtn");
   var roleBtnLabel = document.getElementById("roleBtnLabel");
   var ROLES = ["Admin", "Supervisor", "Agent"];
-  var createGroupBtn = document.getElementById("createGroupBtn");
-  var createUserBtn = document.getElementById("createUserBtn");
   var modalOverlay = document.getElementById("modalOverlay");
   var modalBox = document.getElementById("modalBox");
   var teamCommBtn = document.getElementById("teamCommBtn");
@@ -1654,8 +2104,6 @@
     busy:      { label:"Busy",        cls:"busy" },
     loggedoff: { label:"Logged off",  cls:"loggedoff" }
   };
-  var AVATAR_CLASSES = ["avatar-1","avatar-2","avatar-3","avatar-4","avatar-5","avatar-6"];
-  var DEPARTMENTS = ["Platform Engineering","Design","DevOps","Finance","Security","Legal","Sales","Support"];
   var callBtn = document.getElementById("callBtn");
   var videoBtn = document.getElementById("videoBtn");
   var searchToggleBtn = document.getElementById("searchToggleBtn");
@@ -1681,9 +2129,6 @@
   var recordSendBtn = document.getElementById("recordSendBtn");
   var composerMenu = document.getElementById("composerMenu");
   var composerBox = document.getElementById("composerBox");
-  var suggestedRow = document.getElementById("suggestedRow");
-  var suggestedChips = document.getElementById("suggestedChips");
-  var suggestedDismiss = document.getElementById("suggestedDismiss");
   var charCount = document.getElementById("charCount");
   var replyBanner = document.getElementById("replyBanner");
   var replyBannerText = document.getElementById("replyBannerText");
@@ -1697,6 +2142,8 @@
   var detailAboutRows = document.getElementById("detailAboutRows");
   var appEl = document.getElementById("app");
   var chatHeaderLeft = document.getElementById("chatHeaderLeft");
+  var detailProfileEl = document.getElementById("detailProfile");
+  var detailMembersEl = document.getElementById("detailMembers");
   var memberStackEl = document.getElementById("memberStack");
   var detailCloseBtn = document.getElementById("detailCloseBtn");
   var detailCallBtn = document.getElementById("detailCallBtn");
@@ -1706,7 +2153,6 @@
   var toastContainer = document.getElementById("toastContainer");
 
   var pendingAttachments = [];
-  var suggestionsHidden = false;
   var MAX_CHARS = 4000;
   var MAX_ATTACHMENTS = 10;
   var replyingTo = null;
@@ -1729,6 +2175,7 @@
     contacts.forEach(function(c){
       if(filter && c.name.toLowerCase().indexOf(filter) === -1) return;
       var last = lastMessage(c.id);
+      var unread = (state.unread && state.unread[c.id]) || 0;
       var item = document.createElement("div");
       item.className = "conv-item" + (c.id === activeId ? " active" : "");
       item.setAttribute("data-id", c.id);
@@ -1737,9 +2184,10 @@
           '<span class="status-dot '+c.status+'"></span></div>'+
         '<div class="conv-meta">'+
           '<div class="conv-top-row"><span class="conv-name">'+escapeHtml(c.name)+'</span>'+
-            '<span class="conv-time">'+(last ? last.time : "")+'</span></div>'+
+            '<span class="conv-time">'+(last ? listTimeLabel(last) : "")+'</span></div>'+
           '<div class="conv-preview">'+(last ? escapeHtml((last.from==="me"?"You: ":"")+previewText(last)) : "")+'</div>'+
-        '</div>';
+        '</div>'+
+        (unread ? '<span class="unread-badge">'+unread+'</span>' : '');
       item.addEventListener("click", function(){ setActive(c.id); });
       if(c.pinned){ pinnedListEl.appendChild(item); }
       else if(c.isGroup){ groupsListEl.appendChild(item); }
@@ -1748,6 +2196,11 @@
 
     pinnedTitleEl.hidden = pinnedListEl.children.length === 0;
     groupsTitleEl.hidden = groupsListEl.children.length === 0;
+
+    var totalUnread = 0;
+    contacts.forEach(function(c){ totalUnread += (state.unread && state.unread[c.id]) || 0; });
+    var tabCount = document.getElementById("unreadTabCount");
+    if(tabCount){ tabCount.textContent = totalUnread; tabCount.hidden = totalUnread === 0; }
   }
 
   function statusLabel(c){
@@ -1929,9 +2382,329 @@
     });
   }
 
+  function memberRowEl(m, action){
+    var row = document.createElement("div");
+    row.className = "member-manage-row";
+    row.innerHTML =
+      '<div class="avatar ' + (m.me ? "avatar-me" : m.avatarClass) + ' sm">' + escapeHtml(m.initials) + '</div>' +
+      '<div class="member-manage-meta"><div class="member-manage-name">' + escapeHtml(m.name) + (m.me ? '<span class="you-tag">You</span>' : "") + '</div>' +
+      '<div class="member-manage-sub">' + escapeHtml(m.role + (m.department ? " · " + m.department : "")) + '</div></div>';
+    if(action){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "member-action-btn " + action.kind;
+      b.textContent = action.label;
+      b.addEventListener("click", action.run);
+      row.appendChild(b);
+    }
+    return row;
+  }
+
+  function renderMembersPanel(){
+    var c = activeContact();
+    if(!c || !detailMembersEl) return;
+    var list = membersOf(c);
+    var canManage = c.isGroup && state.role === "Supervisor";
+    var hadFocus = document.activeElement && document.activeElement.id === "membersAddSearch";
+
+    detailMembersEl.innerHTML =
+      '<div class="dm-head"><div><div class="dm-title">Members<span class="count-pill">' + list.length + '</span></div>' +
+      '<div class="dm-sub">' + escapeHtml(c.isGroup ? c.name + " · Group" : "Direct message with " + c.name) + '</div></div>' +
+      '<button class="icon-btn" id="membersCloseBtn" type="button" title="Close"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+
+    var block = document.createElement("div");
+    block.className = "detail-block";
+    if(!canManage){
+      var note = document.createElement("div");
+      note.className = "members-note";
+      note.textContent = c.isGroup ? "Only Supervisors can add or remove members." : "Members can't be changed in a direct message.";
+      block.appendChild(note);
+    }
+    var title = document.createElement("div");
+    title.className = "detail-block-title";
+    title.textContent = "In this " + (c.isGroup ? "group" : "chat") + " (" + list.length + ")";
+    block.appendChild(title);
+    list.forEach(function(m){
+      block.appendChild(memberRowEl(m, (canManage && !m.me) ? { kind:"remove", label:"Remove", run:function(){ removeMember(m.id); } } : null));
+    });
+    detailMembersEl.appendChild(block);
+
+    if(canManage){
+      var addBlock = document.createElement("div");
+      addBlock.className = "detail-block";
+      addBlock.style.borderBottom = "none";
+      addBlock.innerHTML = '<div class="detail-block-title">Add members</div>' +
+        '<input type="text" class="form-input" id="membersAddSearch" placeholder="Search people…" style="margin-bottom:8px">' +
+        '<div id="membersAddList"></div>';
+      detailMembersEl.appendChild(addBlock);
+      var search = addBlock.querySelector("#membersAddSearch");
+      var addList = addBlock.querySelector("#membersAddList");
+      search.value = membersAddQuery;
+      var paintAdd = function(){
+        addList.innerHTML = "";
+        var q = membersAddQuery.trim().toLowerCase();
+        var candidates = contacts.filter(function(x){
+          return !x.isGroup && (c.members || []).indexOf(x.id) === -1 && (!q || x.name.toLowerCase().indexOf(q) !== -1);
+        });
+        if(!candidates.length){
+          addList.innerHTML = '<div class="team-comm-empty">No one else to add</div>';
+          return;
+        }
+        candidates.forEach(function(x){
+          addList.appendChild(memberRowEl(x, { kind:"add", label:"Add", run:function(){ addMember(x.id); } }));
+        });
+      };
+      search.addEventListener("input", function(){ membersAddQuery = search.value; paintAdd(); });
+      paintAdd();
+      if(hadFocus) search.focus();
+    }
+
+    detailMembersEl.querySelector("#membersCloseBtn").addEventListener("click", closeDetailPanel);
+  }
+
+  function renderDetailLists(c){
+    /* members */
+    var list = membersOf(c);
+    document.getElementById("detailMembersTitle").textContent = "Members (" + list.length + ")";
+    /* only Supervisors may add/remove members of a group; everyone else gets a read-only view */
+    var canManage = c.isGroup && state.role === "Supervisor";
+    document.getElementById("detailAddBtn").hidden = !canManage;
+    document.getElementById("detailManageLink").textContent = canManage ? "Manage" : "View all";
+    var mRows = document.getElementById("detailMembersRows");
+    mRows.innerHTML = "";
+    list.slice(0, 6).forEach(function(m){
+      var row = document.createElement("div");
+      row.className = "member-row";
+      row.innerHTML = '<div class="avatar ' + (m.me ? "avatar-me" : m.avatarClass) + ' sm">' + escapeHtml(m.initials) + '</div>' +
+        '<div class="member-name">' + escapeHtml(m.name) + '</div><span class="member-role">' + escapeHtml(m.me ? "You" : m.role) + '</span>';
+      mRows.appendChild(row);
+    });
+
+    /* shared files (attachments + file cards, newest first) */
+    var files = [];
+    (state.messages[c.id] || []).forEach(function(m){
+      ensureMsgMeta(m);
+      (m.attachments || []).forEach(function(a){ files.push({ name:a.name, meta:formatBytes(a.size), ts:m.ts, src:attSrc(a) }); });
+      if(m.fileCard) files.push({ name:m.fileCard.name, meta:m.fileCard.meta, ts:m.ts, src:null });
+    });
+    files = files.reverse().slice(0, 5);
+    var fRows = document.getElementById("detailFilesRows");
+    fRows.innerHTML = "";
+    if(!files.length) fRows.innerHTML = '<div class="empty-note">No shared files yet</div>';
+    files.forEach(function(f){
+      var a = document.createElement("a");
+      a.className = "file-item";
+      a.href = "javascript:void(0)";
+      a.innerHTML = '<div class="file-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>' +
+        '<div style="flex:1; min-width:0;"><div class="file-name">' + escapeHtml(f.name) + '</div><div class="file-size">' + escapeHtml(f.meta) + ' · ' + escapeHtml(relDay(f.ts)) + '</div></div>';
+      a.addEventListener("click", function(){
+        if(f.src){
+          var dl = document.createElement("a");
+          dl.href = f.src; dl.download = f.name;
+          document.body.appendChild(dl); dl.click(); dl.remove();
+        }
+        toast("Downloading " + f.name + "…");
+      });
+      fRows.appendChild(a);
+    });
+
+    /* recent calls */
+    var calls = [];
+    (state.messages[c.id] || []).forEach(function(m){
+      if(m.callLog){ ensureMsgMeta(m); calls.push({ cl:m.callLog, ts:m.ts }); }
+    });
+    calls = calls.reverse().slice(0, 4);
+    var cRows = document.getElementById("detailCallsRows");
+    cRows.innerHTML = "";
+    if(!calls.length) cRows.innerHTML = '<div class="empty-note">No calls yet</div>';
+    calls.forEach(function(x){
+      var missed = x.cl.status === "missed";
+      var row = document.createElement("div");
+      row.className = "call-row";
+      row.innerHTML = '<div class="call-icon' + (missed ? " missed" : "") + '">' + callIconSvg(x.cl).replace(/width="18" height="18"/, 'width="13" height="13"') + '</div>' +
+        '<div class="call-name">' + escapeHtml(x.cl.title) + ' · ' + escapeHtml(missed ? "Missed" : (x.cl.lasted || "")) + '</div>' +
+        '<span class="call-when">' + escapeHtml(relDay(x.ts)) + '</span>';
+      cRows.appendChild(row);
+    });
+  }
+
+  /* ---------- Detail panel tabs: Details / Files / Threads / Calls ---------- */
+  var detailTab = "details";
+  var tabQuery = "";
+  var filesFilter = "all";
+  var callsFilter = "all";
+  var detailTabPaneEl = document.getElementById("detailTabPane");
+  var detailDetailsPaneEl = document.getElementById("detailDetailsPane");
+
+  function fileExt(name){
+    var m = /\.([a-z0-9]+)$/i.exec(name || "");
+    return m ? m[1].toLowerCase() : "";
+  }
+  function fileKind(name, type){
+    var e = fileExt(name), t = type || "";
+    if(/^image\//.test(t) || /^(png|jpe?g|gif|webp|svg)$/.test(e)) return "images";
+    if(/^(audio|video)\//.test(t) || /^(mp3|wav|m4a|ogg|mp4|mov|webm)$/.test(e)) return "media";
+    return "docs";
+  }
+  function setDetailTab(tab){
+    detailTab = tab;
+    tabQuery = "";
+    Array.prototype.forEach.call(document.querySelectorAll(".detail-tab"), function(b){
+      var on = b.getAttribute("data-tab") === tab;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    renderDetailTab();
+  }
+  function tpEmpty(title, sub){
+    return '<div class="tp-empty"><b>' + escapeHtml(title) + '</b>' + escapeHtml(sub) + '</div>';
+  }
+  function tpItem(iconHtml, title, sub, extraHtml){
+    var b = document.createElement("div");
+    b.className = "tp-item";
+    b.tabIndex = 0;
+    b.setAttribute("role", "button");
+    b.innerHTML = '<div class="tp-icon">' + iconHtml + '</div><div class="tp-body"><div class="tp-title">' + escapeHtml(title) +
+      '</div><div class="tp-sub">' + escapeHtml(sub) + '</div></div>' + (extraHtml || "");
+    b.addEventListener("keydown", function(e){ if(e.target === b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); b.click(); } });
+    return b;
+  }
+  function tpChips(pane, opts, current, onPick){
+    var wrap = document.createElement("div");
+    wrap.className = "tp-chips";
+    opts.forEach(function(o){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tp-chip" + (o[0] === current ? " active" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ onPick(o[0]); });
+      wrap.appendChild(b);
+    });
+    pane.appendChild(wrap);
+  }
+  function tpSearch(pane, placeholder){
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "form-input tp-search";
+    input.placeholder = placeholder;
+    input.value = tabQuery;
+    input.addEventListener("input", function(){
+      tabQuery = input.value;
+      renderDetailTab();
+      var again = detailTabPaneEl.querySelector(".tp-search");
+      if(again){ again.focus(); again.setSelectionRange(tabQuery.length, tabQuery.length); }
+    });
+    pane.appendChild(input);
+  }
+
+  function renderDetailTab(){
+    var c = contacts.find(function(x){ return x.id === activeId; });
+    var showDetails = detailTab === "details" || !c;
+    detailDetailsPaneEl.hidden = !showDetails;
+    detailTabPaneEl.hidden = showDetails;
+    if(showDetails) return;
+    detailTabPaneEl.innerHTML = "";
+    var msgs = state.messages[c.id] || [];
+    msgs.forEach(ensureMsgMeta);
+    var q = tabQuery.trim().toLowerCase();
+
+    if(detailTab === "files"){
+      var files = [];
+      msgs.forEach(function(m){
+        var who = m.from === "me" ? "You" : c.name;
+        (m.attachments || []).forEach(function(a){
+          files.push({ name:a.name, meta:formatBytes(a.size), kind:fileKind(a.name, a.type), ts:m.ts, who:who, mid:m.id, src:attSrc(a), thumb:/^image\//.test(a.type || "") ? attSrc(a) : "" });
+        });
+        if(m.fileCard) files.push({ name:m.fileCard.name, meta:m.fileCard.meta, kind:fileKind(m.fileCard.name), ts:m.ts, who:who, mid:m.id, src:null, thumb:"" });
+      });
+      files.reverse();
+      var shown = files.filter(function(f){
+        return (filesFilter === "all" || f.kind === filesFilter) && (!q || f.name.toLowerCase().indexOf(q) !== -1);
+      });
+      tpSearch(detailTabPaneEl, "Search files…");
+      tpChips(detailTabPaneEl, [["all","All"],["docs","Documents"],["images","Images"],["media","Audio & video"]], filesFilter, function(v){ filesFilter = v; renderDetailTab(); });
+      var cnt = document.createElement("div");
+      cnt.className = "tp-count"; cnt.textContent = shown.length + (shown.length === 1 ? " file" : " files");
+      detailTabPaneEl.appendChild(cnt);
+      if(!shown.length){ detailTabPaneEl.insertAdjacentHTML("beforeend", tpEmpty("No files found", q || filesFilter !== "all" ? "Try a different search or filter." : "Files shared in this conversation will appear here.")); }
+      shown.forEach(function(f){
+        var icon = f.thumb ? '<img alt="" src="' + f.thumb + '">' : escapeHtml((fileExt(f.name) || "file").slice(0, 4).toUpperCase());
+        var it = tpItem(icon, f.name, f.who + " · " + f.meta + " · " + relDay(f.ts),
+          '<button class="tp-action" type="button" title="Download" aria-label="Download ' + escapeHtml(f.name) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>');
+        it.querySelector(".tp-action").addEventListener("click", function(e){
+          e.stopPropagation();
+          if(f.src){ var dl = document.createElement("a"); dl.href = f.src; dl.download = f.name; document.body.appendChild(dl); dl.click(); dl.remove(); }
+          toast("Downloading " + f.name + "…");
+        });
+        it.addEventListener("click", function(){ goToMessage(c.id, f.mid); });
+        detailTabPaneEl.appendChild(it);
+      });
+    }
+
+    else if(detailTab === "threads"){
+      var threads = [];
+      msgs.forEach(function(m){
+        if(m.threadReply) threads.push({ kind:"thread", m:m, title:previewText(m), sub:m.threadReply.count + " replies · " + m.threadReply.label });
+        else if(m.replyTo) threads.push({ kind:"reply", m:m, title:previewText(m), sub:"Reply to " + m.replyTo.author + ": " + m.replyTo.text });
+      });
+      threads.reverse();
+      var tshown = threads.filter(function(t){ return !q || (t.title + " " + t.sub).toLowerCase().indexOf(q) !== -1; });
+      tpSearch(detailTabPaneEl, "Search threads…");
+      var tc = document.createElement("div");
+      tc.className = "tp-count"; tc.textContent = tshown.length + (tshown.length === 1 ? " thread" : " threads");
+      detailTabPaneEl.appendChild(tc);
+      if(!tshown.length) detailTabPaneEl.insertAdjacentHTML("beforeend", tpEmpty("No threads yet", q ? "Try a different search." : "Threads and replies in this conversation will appear here."));
+      tshown.forEach(function(t){
+        var icon = t.kind === "thread"
+          ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>'
+          : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>';
+        var it = tpItem(icon, t.title || "Message", t.sub + " · " + relDay(t.m.ts));
+        it.addEventListener("click", function(){ goToMessage(c.id, t.m.id); });
+        detailTabPaneEl.appendChild(it);
+      });
+    }
+
+    else if(detailTab === "calls"){
+      var calls = [];
+      msgs.forEach(function(m){ if(m.callLog) calls.push({ cl:m.callLog, m:m }); });
+      calls.reverse();
+      var cshown = calls.filter(function(x){
+        var cl = x.cl;
+        var okF = callsFilter === "all" || (callsFilter === "missed" ? cl.status === "missed" : callsFilter === "video" ? cl.kind === "video" : cl.direction === callsFilter && cl.status !== "missed");
+        return okF && (!q || (cl.title + " " + (cl.to || "")).toLowerCase().indexOf(q) !== -1);
+      });
+      tpSearch(detailTabPaneEl, "Search calls…");
+      tpChips(detailTabPaneEl, [["all","All"],["missed","Missed"],["incoming","Incoming"],["outgoing","Outgoing"],["video","Video"]], callsFilter, function(v){ callsFilter = v; renderDetailTab(); });
+      var cc = document.createElement("div");
+      cc.className = "tp-count"; cc.textContent = cshown.length + (cshown.length === 1 ? " call" : " calls");
+      detailTabPaneEl.appendChild(cc);
+      if(!cshown.length) detailTabPaneEl.insertAdjacentHTML("beforeend", tpEmpty("No calls found", q || callsFilter !== "all" ? "Try a different search or filter." : "Calls with this conversation will appear here."));
+      cshown.forEach(function(x){
+        var cl = x.cl, missed = cl.status === "missed";
+        var sub = (missed ? "Missed" : (cl.lasted ? "Lasted " + cl.lasted : (cl.direction === "incoming" ? "Incoming" : "Outgoing"))) + " · " + relDay(x.m.ts) + " " + displayTime(x.m);
+        var it = tpItem('<span class="call-icon' + (missed ? " missed" : "") + '" style="width:32px;height:32px;background:none">' + callIconSvg(cl).replace(/width="18" height="18"/, 'width="16" height="16"') + '</span>',
+          cl.title, sub,
+          '<button class="tp-action" type="button" title="Call back" aria-label="Call back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' + CALL_ICON_PATH + '</svg></button>');
+        it.querySelector(".tp-action").addEventListener("click", function(e){ e.stopPropagation(); simulateCall(cl.kind === "video" ? "video" : "voice"); });
+        it.addEventListener("click", function(){ goToMessage(c.id, x.m.id); });
+        detailTabPaneEl.appendChild(it);
+      });
+    }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".detail-tab"), function(b){
+    b.setAttribute("role", "tab");
+    b.addEventListener("click", function(){ setDetailTab(b.getAttribute("data-tab")); });
+  });
+
   function renderDetail(){
+    renderDetailTab();
     var c = contacts.find(function(x){ return x.id === activeId; });
     if(!c) return;
+    renderDetailLists(c);
+    if(detailView === "members") renderMembersPanel();
+    if(detailView === "pins") renderPinsPanel();
+    if(detailView === "notes"){ deletingNoteId = null; renderNotesPanel(); }
+    updatePanelBadges();
 
     detailAvatar.className = "avatar detail-avatar " + c.avatarClass;
     detailAvatar.textContent = c.initials;
@@ -1967,20 +2740,195 @@
     });
   }
 
-  function openDetailPanel(){
+  var detailView = "profile";
+  var membersAddQuery = "";
+  function setDetailView(view){
+    detailView = view;
+    appEl.setAttribute("data-dview", view);
+    detailProfileEl.hidden = view !== "profile";
+    detailMembersEl.hidden = view !== "members";
+    detailPinsEl.hidden = view !== "pins";
+    detailNotesEl.hidden = view !== "notes";
+    if(view === "members") renderMembersPanel();
+    if(view === "pins") renderPinsPanel();
+    if(view === "notes") renderNotesPanel();
+    syncPanelButtons();
+  }
+  function openDetailPanel(view){
+    setDetailView(view || detailView);
     appEl.classList.add("detail-open");
+    syncPanelButtons();
   }
   function closeDetailPanel(){
     appEl.classList.remove("detail-open");
+    syncPanelButtons();
   }
-  function toggleDetailPanel(){
-    appEl.classList.toggle("detail-open");
+  function syncPanelButtons(){
+    var open = appEl.classList.contains("detail-open");
+    pinsBtn.classList.toggle("active", open && detailView === "pins");
+    notesBtn.classList.toggle("active", open && detailView === "notes");
+    pinsBtn.setAttribute("aria-pressed", pinsBtn.classList.contains("active") ? "true" : "false");
+    notesBtn.setAttribute("aria-pressed", notesBtn.classList.contains("active") ? "true" : "false");
+  }
+  function updatePanelBadges(){
+    var pins = (state.messages[activeId] || []).filter(function(m){ return m.pinned; }).length;
+    var notes = ((state.notes || {})[activeId] || []).length;
+    pinsBadge.textContent = pins; pinsBadge.hidden = pins === 0;
+    notesBadge.textContent = notes; notesBadge.hidden = notes === 0;
+  }
+
+  /* ---------- Pinned messages panel ---------- */
+  var detailPinsEl = document.getElementById("detailPins");
+  var detailNotesEl = document.getElementById("detailNotes");
+  var pinsBtn = document.getElementById("pinsBtn");
+  var notesBtn = document.getElementById("notesBtn");
+  var pinsBadge = document.getElementById("pinsBadge");
+  var notesBadge = document.getElementById("notesBadge");
+  var CLOSE_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  function panelHead(title, count, sub){
+    return '<div class="dm-head"><div><div class="dm-title">' + title + '<span class="count-pill">' + count + '</span></div>' +
+      '<div class="dm-sub">' + escapeHtml(sub) + '</div></div>' +
+      '<button class="icon-btn panel-close" type="button" title="Close" aria-label="Close panel">' + CLOSE_SVG + '</button></div>';
+  }
+  function whenLabel(ts){
+    var d = new Date(ts);
+    return relDay(ts) + " · " + d.toLocaleTimeString("en-US", { hour:"numeric", minute:"2-digit" });
+  }
+  function renderPinsPanel(){
+    var c = contacts.find(function(x){ return x.id === activeId; });
+    if(!c) return;
+    var pinned = (state.messages[c.id] || []).filter(function(m){ return m.pinned; });
+    pinned.forEach(ensureMsgMeta);
+    pinned = pinned.slice().sort(function(a, b){ return b.ts - a.ts; });
+    detailPinsEl.innerHTML = panelHead("Pinned messages", pinned.length, c.isGroup ? c.name + " · Group" : "Conversation with " + c.name);
+    detailPinsEl.querySelector(".panel-close").addEventListener("click", closeDetailPanel);
+    var body = document.createElement("div");
+    body.className = "sp-body";
+    if(!pinned.length){
+      body.innerHTML = tpEmpty("No pinned messages", "Pin important messages from the message toolbar and they will be listed here.");
+    }
+    pinned.forEach(function(m){
+      var card = document.createElement("div");
+      card.className = "pin-card";
+      var mine = m.from === "me";
+      card.innerHTML =
+        '<div class="pin-head"><div class="avatar ' + (mine ? "avatar-me" : c.avatarClass) + ' xs">' + (mine ? "SK" : escapeHtml(c.initials)) + '</div>' +
+        '<div class="pin-who"><div class="pin-author">' + (mine ? "You" : escapeHtml(c.name)) + '</div>' +
+        '<div class="pin-when">' + escapeHtml(whenLabel(m.ts)) + '</div></div></div>' +
+        '<div class="pin-text"></div>' +
+        '<div class="pin-actions"><button class="sp-link go" type="button">Go to message</button><span class="sp-spacer"></span></div>';
+      card.querySelector(".pin-text").textContent = previewText(m) || "Message";
+      card.querySelector(".go").addEventListener("click", function(){ goToMessage(c.id, m.id); });
+      if(canPinIn(c)){
+        var un = document.createElement("button");
+        un.type = "button"; un.className = "sp-link danger"; un.textContent = "Unpin";
+        un.addEventListener("click", function(){ togglePin(m, c); });
+        card.querySelector(".pin-actions").appendChild(un);
+      }
+      body.appendChild(card);
+    });
+    detailPinsEl.appendChild(body);
+  }
+
+  /* ---------- Notes panel (private, per conversation) ---------- */
+  var noteDrafts = {};
+  var editingNoteId = null;
+  var deletingNoteId = null;
+  var NOTE_MAX = 2000;
+  function notesOf(id){
+    if(!state.notes) state.notes = {};
+    if(!state.notes[id]) state.notes[id] = [];
+    return state.notes[id];
+  }
+  function renderNotesPanel(){
+    var c = contacts.find(function(x){ return x.id === activeId; });
+    if(!c) return;
+    var list = notesOf(c.id).slice().sort(function(a, b){ return b.ts - a.ts; });
+    if(editingNoteId && !list.some(function(n){ return n.id === editingNoteId; })) editingNoteId = null;
+    detailNotesEl.innerHTML = panelHead("Notes", list.length, c.isGroup ? c.name + " · Group" : "About " + c.name);
+    detailNotesEl.querySelector(".panel-close").addEventListener("click", closeDetailPanel);
+    var body = document.createElement("div");
+    body.className = "sp-body";
+
+    body.innerHTML =
+      '<div class="note-privacy"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private — only you can see your notes</div>' +
+      '<div class="note-composer"><textarea id="noteInput" maxlength="' + NOTE_MAX + '" placeholder="Write a note about this conversation…" aria-label="New note"></textarea>' +
+      '<div class="note-composer-foot"><span class="note-hint">Ctrl + Enter to save</span><button class="btn-primary" id="noteAddBtn" type="button" disabled>Add note</button></div></div>';
+    var input = body.querySelector("#noteInput");
+    var addBtn = body.querySelector("#noteAddBtn");
+    input.value = noteDrafts[c.id] || "";
+    addBtn.disabled = !input.value.trim();
+    function add(){
+      var text = input.value.trim();
+      if(!text) return;
+      notesOf(c.id).push({ id:"note-" + Date.now() + "-" + Math.floor(Math.random() * 1000), text:text, ts:Date.now() });
+      delete noteDrafts[c.id];
+      saveState(); updatePanelBadges(); renderNotesPanel();
+      toast("Note added");
+    }
+    input.addEventListener("input", function(){ noteDrafts[c.id] = input.value; addBtn.disabled = !input.value.trim(); });
+    input.addEventListener("keydown", function(e){ if((e.ctrlKey || e.metaKey) && e.key === "Enter"){ e.preventDefault(); add(); } });
+    addBtn.addEventListener("click", add);
+
+    if(!list.length){
+      body.insertAdjacentHTML("beforeend", tpEmpty("No notes yet", "Jot down reminders, decisions or follow-ups for this conversation."));
+    }
+    list.forEach(function(n){
+      var card = document.createElement("div");
+      card.className = "note-card";
+      if(editingNoteId === n.id){
+        card.classList.add("note-edit");
+        card.innerHTML = '<textarea maxlength="' + NOTE_MAX + '" aria-label="Edit note"></textarea>' +
+          '<div class="note-actions"><button class="sp-link" data-a="cancel" type="button">Cancel</button><button class="btn-primary" data-a="save" type="button" style="padding:5px 12px;font-size:12px">Save</button></div>';
+        var ta = card.querySelector("textarea");
+        ta.value = n.text;
+        card.querySelector('[data-a="cancel"]').addEventListener("click", function(){ editingNoteId = null; renderNotesPanel(); });
+        var save = function(){
+          var t = ta.value.trim();
+          if(!t){ toast("A note can't be empty"); return; }
+          if(t !== n.text){ n.text = t; n.edited = true; n.ts = n.ts; saveState(); }
+          editingNoteId = null; renderNotesPanel();
+        };
+        card.querySelector('[data-a="save"]').addEventListener("click", save);
+        ta.addEventListener("keydown", function(e){
+          if((e.ctrlKey || e.metaKey) && e.key === "Enter"){ e.preventDefault(); save(); }
+          if(e.key === "Escape"){ editingNoteId = null; renderNotesPanel(); }
+        });
+        setTimeout(function(){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 0);
+      } else {
+        var confirming = deletingNoteId === n.id;
+        card.innerHTML =
+          '<div class="note-meta"><span class="note-when">' + escapeHtml(whenLabel(n.ts)) + (n.edited ? " · Edited" : "") + '</span></div>' +
+          '<div class="note-text"></div>' +
+          '<div class="note-actions"><button class="sp-link" data-a="edit" type="button">Edit</button>' +
+          '<button class="sp-link danger" data-a="del" type="button">' + (confirming ? "Confirm delete" : "Delete") + '</button></div>';
+        card.querySelector(".note-text").textContent = n.text;
+        card.querySelector('[data-a="edit"]').addEventListener("click", function(){ editingNoteId = n.id; deletingNoteId = null; renderNotesPanel(); });
+        card.querySelector('[data-a="del"]').addEventListener("click", function(){
+          if(deletingNoteId !== n.id){ deletingNoteId = n.id; renderNotesPanel(); return; }
+          var arr = notesOf(c.id);
+          arr.splice(arr.indexOf(n), 1);
+          deletingNoteId = null;
+          saveState(); updatePanelBadges(); renderNotesPanel();
+          toast("Note deleted");
+        });
+      }
+      body.appendChild(card);
+    });
+    detailNotesEl.appendChild(body);
+  }
+  function toggleDetailPanel(view){
+    var isOpen = appEl.classList.contains("detail-open");
+    if(isOpen && detailView === view) closeDetailPanel();
+    else openDetailPanel(view);
   }
 
   function renderPinnedBanner(){
     var arr = state.messages[activeId] || [];
     var pinned = arr.filter(function(m){ return m.pinned; });
 
+    updatePanelBadges();
+    if(detailView === "pins") renderPinsPanel();
     if(pinned.length === 0){
       pinnedBanner.hidden = true;
       return;
@@ -1995,13 +2943,7 @@
 
   function renderRole(){
     roleBtnLabel.textContent = state.role || "Agent";
-    updateRoleVisibility();
-  }
-
-  function updateRoleVisibility(){
-    var role = state.role || "Agent";
-    createGroupBtn.hidden = !(role === "Admin" || role === "Supervisor");
-    createUserBtn.hidden = !(role === "Admin");
+    if(detailView === "members") renderMembersPanel();
   }
 
   function openRoleMenu(anchorEl){
@@ -2023,6 +2965,7 @@
           state.role = role;
           saveState();
           renderRole();
+          renderDetail();
           toast("Switched to " + role + " role");
         });
         pop.appendChild(item);
@@ -2054,20 +2997,6 @@
     if(e.target === modalOverlay) closeModal();
   });
 
-  function nextAvatarClass(){
-    return AVATAR_CLASSES[contacts.length % AVATAR_CLASSES.length];
-  }
-  function initialsFromName(name){
-    var parts = name.trim().split(/\s+/);
-    var initials = parts[0] ? parts[0][0] : "";
-    if(parts.length > 1) initials += parts[parts.length - 1][0];
-    return initials.toUpperCase() || "??";
-  }
-  function usernameFromName(name){
-    var parts = name.trim().toLowerCase().split(/\s+/);
-    if(parts.length === 1) return parts[0];
-    return parts[0][0] + parts[parts.length - 1];
-  }
   function to12Hour(hhmm){
     if(!hhmm) return "";
     var parts = hhmm.split(":");
@@ -2076,135 +3005,6 @@
     var ampm = h >= 12 ? "PM" : "AM";
     h = h % 12; if(h === 0) h = 12;
     return h + ":" + m + " " + ampm;
-  }
-
-  function openCreateGroupModal(){
-    openModal(function(box){
-      box.innerHTML =
-        '<div class="modal-header"><div class="modal-title">Create Group</div>'+
-          '<button class="icon-btn" id="modalCloseBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
-        '<div class="modal-sub">Group chats are visible to Admins and Supervisors.</div>'+
-        '<div class="form-group"><label class="form-label">Group name</label>'+
-          '<input type="text" class="form-input" id="groupNameInput" placeholder="e.g. Platform Rollout"></div>'+
-        '<div class="form-group"><label class="form-label">Members</label>'+
-          '<div class="member-checklist" id="groupMemberList"></div></div>'+
-        '<div class="modal-actions">'+
-          '<button class="btn-secondary" id="groupCancelBtn">Cancel</button>'+
-          '<button class="btn-primary" id="groupCreateBtn" disabled>Create Group</button>'+
-        '</div>';
-
-      var memberListEl = box.querySelector("#groupMemberList");
-      contacts.forEach(function(c){
-        if(c.isGroup) return;
-        var row = document.createElement("label");
-        row.className = "member-check-item";
-        row.innerHTML =
-          '<input type="checkbox" value="'+c.id+'">'+
-          '<span class="avatar '+c.avatarClass+' sm">'+c.initials+'</span>'+
-          '<span>'+escapeHtml(c.name)+'</span>';
-        memberListEl.appendChild(row);
-      });
-
-      var nameInput = box.querySelector("#groupNameInput");
-      var createBtn = box.querySelector("#groupCreateBtn");
-      nameInput.addEventListener("input", function(){
-        createBtn.disabled = nameInput.value.trim().length === 0;
-      });
-      nameInput.focus();
-
-      box.querySelector("#modalCloseBtn").addEventListener("click", closeModal);
-      box.querySelector("#groupCancelBtn").addEventListener("click", closeModal);
-      createBtn.addEventListener("click", function(){
-        var name = nameInput.value.trim();
-        if(!name) return;
-        var memberIds = Array.prototype.slice.call(box.querySelectorAll('#groupMemberList input:checked'))
-          .map(function(el){ return el.value; });
-
-        var id = "group-" + Date.now();
-        var group = {
-          id: id, name: name, role: (memberIds.length + 1) + " members",
-          avatarClass: nextAvatarClass(), initials: "#", status: "online",
-          pinned: false, isGroup: true, members: memberIds,
-          directoryType: "Team", commStatus: "ready"
-        };
-        contacts.push(group);
-        state.messages[id] = [
-          { from:"them", text:"Group \"" + name + "\" was created.", time: nowTime() }
-        ];
-        saveState();
-        renderList(searchInput.value);
-        setActive(id);
-        closeModal();
-        toast("Group \"" + name + "\" created");
-      });
-    });
-  }
-
-  function openCreateUserModal(){
-    openModal(function(box){
-      box.innerHTML =
-        '<div class="modal-header"><div class="modal-title">Create User</div>'+
-          '<button class="icon-btn" id="modalCloseBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
-        '<div class="modal-sub">Available to Admins only.</div>'+
-        '<div class="form-group"><label class="form-label">Full name</label>'+
-          '<input type="text" class="form-input" id="userNameInput" placeholder="e.g. Alex Rivera"></div>'+
-        '<div class="form-group"><label class="form-label">Role</label>'+
-          '<select class="form-select" id="userRoleInput">'+
-            '<option value="Supervisor">Supervisor</option>'+
-            '<option value="Agent">Agent</option>'+
-          '</select></div>'+
-        '<div class="form-group"><label class="form-label">Department</label>'+
-          '<select class="form-select" id="userDeptInput">'+
-            DEPARTMENTS.map(function(d){ return '<option value="'+escapeHtml(d)+'">'+escapeHtml(d)+'</option>'; }).join("")+
-          '</select></div>'+
-        '<div class="form-group"><label class="form-label">Project</label>'+
-          '<input type="text" class="form-input" id="userProjectInput" placeholder="e.g. Q3 Platform Rollout"></div>'+
-        '<div class="form-group"><label class="form-label">Available time (working hours)</label>'+
-          '<div class="form-row">'+
-            '<div class="form-group"><input type="time" class="form-input" id="userFromInput" value="09:00"></div>'+
-            '<div class="form-group"><input type="time" class="form-input" id="userToInput" value="18:00"></div>'+
-          '</div></div>'+
-        '<div class="modal-actions">'+
-          '<button class="btn-secondary" id="userCancelBtn">Cancel</button>'+
-          '<button class="btn-primary" id="userCreateBtn" disabled>Create User</button>'+
-        '</div>';
-
-      var nameInput = box.querySelector("#userNameInput");
-      var createBtn = box.querySelector("#userCreateBtn");
-      nameInput.addEventListener("input", function(){
-        createBtn.disabled = nameInput.value.trim().length === 0;
-      });
-      nameInput.focus();
-
-      box.querySelector("#modalCloseBtn").addEventListener("click", closeModal);
-      box.querySelector("#userCancelBtn").addEventListener("click", closeModal);
-      createBtn.addEventListener("click", function(){
-        var name = nameInput.value.trim();
-        if(!name) return;
-        var role = box.querySelector("#userRoleInput").value;
-        var department = box.querySelector("#userDeptInput").value;
-        var project = box.querySelector("#userProjectInput").value.trim();
-        var from = box.querySelector("#userFromInput").value || "09:00";
-        var to = box.querySelector("#userToInput").value || "18:00";
-        var availableTime = to12Hour(from) + " – " + to12Hour(to);
-
-        var id = "user-" + Date.now();
-        var user = {
-          id: id, name: name, role: role,
-          avatarClass: nextAvatarClass(), initials: initialsFromName(name), status: "online",
-          pinned: false, department: department, project: project, availableTime: availableTime,
-          directoryType: (role === "Supervisor" ? "Team Lead" : "Agent"),
-          username: usernameFromName(name), commStatus: "ready"
-        };
-        contacts.push(user);
-        state.messages[id] = [];
-        saveState();
-        renderList(searchInput.value);
-        setActive(id);
-        closeModal();
-        toast(name + " created as " + role + " in " + department);
-      });
-    });
   }
 
   function openTeamCommunicator(){
@@ -2348,7 +3148,6 @@
 
   function renderMessages(opts){
     opts = opts || {};
-    stopAllAudio();
     var preservedScroll = opts.preserveScroll ? messagesEl.scrollTop : null;
     messagesEl.innerHTML = "";
 
@@ -2365,24 +3164,31 @@
       return;
     }
 
-    if(!q){
-      var divider = document.createElement("div");
-      divider.className = "day-divider";
-      divider.textContent = "Today";
-      messagesEl.appendChild(divider);
-    }
-
+    var lastDayKey = null;
     visible.forEach(function(m){
+      ensureMsgMeta(m);
+      if(!q){
+        var dk = dayKey(m.ts);
+        if(dk !== lastDayKey){
+          lastDayKey = dk;
+          var divider = document.createElement("div");
+          divider.className = "day-divider";
+          divider.innerHTML = '<span class="day-pill"></span>';
+          divider.firstChild.textContent = dayLabel(m.ts);
+          messagesEl.appendChild(divider);
+        }
+      }
       if(m.system){
         var sysRow = document.createElement("div");
         sysRow.className = "msg-row system";
         sysRow.innerHTML = '<div class="bubble"></div>';
-        sysRow.querySelector(".bubble").textContent = m.text + " · " + m.time;
+        sysRow.querySelector(".bubble").textContent = m.text + " · " + displayTime(m);
         messagesEl.appendChild(sysRow);
         return;
       }
       var row = document.createElement("div");
       row.className = "msg-row " + (m.from === "me" ? "mine" : "theirs");
+      row.setAttribute("data-mid", m.id);
 
       var avatarHtml = m.from === "me"
         ? '<div class="avatar avatar-me sm msg-avatar">SK</div>'
@@ -2394,7 +3200,7 @@
 
       var headerHtml =
         '<div class="msg-meta"><span class="msg-author">'+(m.from==="me"?"You":escapeHtml(c.name))+'</span>'+
-          '<span class="msg-time">'+m.time+'</span>'+pinnedBadgeHtml+'</div>';
+          '<span class="msg-time">'+displayTime(m)+'</span>'+pinnedBadgeHtml+'</div>';
 
       var replyHtml = m.replyTo
         ? '<div class="reply-wrap"><div class="msg-reply-quote">'+
@@ -2417,7 +3223,7 @@
           } else if(kind === "video" && src){
             others += '<video class="msg-video" controls preload="metadata" src="'+fmtEscape(src)+'"></video>';
           } else if(kind === "audio" && src){
-            others += '<div class="msg-audio-wrap"><div class="msg-audio-name">'+escapeHtml(a.name)+'</div><audio class="msg-audio" controls preload="metadata" src="'+fmtEscape(src)+'"></audio></div>';
+            others += audioCardHtml(a, src);
           } else {
             others += '<div class="msg-attachment"><span class="msg-file-ext">'+fmtEscape(fileExt(a.name))+'</span><span>'+escapeHtml(a.name)+' · '+formatBytes(a.size)+'</span></div>';
           }
@@ -2426,11 +3232,8 @@
       }
       var voiceHtmlStr = m.voice ? voiceHtml(m.voice) : "";
 
-      var callLogHtml = m.callLog
-        ? '<div class="call-log-card"><div class="call-log-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></div>'+
-            '<div><div class="call-log-title">'+escapeHtml(m.callLog.title)+'</div><div class="call-log-meta">'+escapeHtml(m.callLog.meta)+'</div>'+
-            '<div class="call-log-actions"><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Recording</span><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>Transcript</span></div></div></div>'
-        : "";
+      var callLogHtml = m.callLog ? callCardHtml(m.callLog) : "";
+      var fwdHtml = m.fwd ? fwdCardHtml(m.fwd) : "";
 
       var aiRecapHtml = m.aiRecap
         ? '<div class="ai-recap-card"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 4.4L6 9l4.1 1.6L12 15l1.9-4.4L18 9l-4.1-1.6L12 3Z"/></svg>'+
@@ -2455,6 +3258,7 @@
           headerHtml +
           replyHtml +
           '<div class="bubble"></div>'+
+          fwdHtml +
           voiceHtmlStr +
           cardsHtml(m) +
           attachmentHtml +
@@ -2463,30 +3267,45 @@
           fileCardHtml +
           '<div class="reactions-slot"></div>'+
           threadHtml +
+          statusHtml(m) +
         '</div>'+
-        '<div class="msg-hover-toolbar">'+
-          '<button class="quick-emoji" title="Like" tabindex="-1">👍</button>'+
-          '<button class="quick-emoji" title="Love" tabindex="-1">❤️</button>'+
-          '<button class="quick-emoji" title="Laugh" tabindex="-1">😂</button>'+
-          '<button class="msg-react-btn" title="React"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>'+
-          '<button class="msg-reply-btn" title="Reply in thread"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>'+
-          '<button title="Forward" tabindex="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 17 20 12 15 7"/><path d="M4 18v-2a4 4 0 0 1 4-4h12"/></svg></button>'+
-          '<button title="Pin" tabindex="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg></button>'+
-          '<button class="msg-more-btn" title="More"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>'+
+        '<div class="msg-hover-toolbar" role="toolbar" aria-label="Message actions">'+
+          quickEmojiBtn(m, "👍", "Like") + quickEmojiBtn(m, "❤️", "Love") + quickEmojiBtn(m, "😂", "Laugh") +
+          '<button class="msg-react-btn" title="Add reaction" aria-label="Add reaction"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11v1a10 10 0 1 1-9-10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><path d="M16 5h6"/><path d="M19 2v6"/></svg></button>'+
+          '<span class="tb-sep"></span>'+
+          '<button class="msg-reply-btn" title="Reply" aria-label="Reply"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>'+
+          '<button class="msg-forward-btn" title="Forward" aria-label="Forward"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 17 20 12 15 7"/><path d="M4 18v-2a4 4 0 0 1 4-4h12"/></svg></button>'+
+          '<button class="msg-pin-btn' + (m.pinned ? ' on' : '') + '" title="' + (m.pinned ? 'Unpin message' : 'Pin message') + '" aria-label="' + (m.pinned ? 'Unpin message' : 'Pin message') + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg></button>'+
+          '<span class="tb-sep"></span>'+
+          '<button class="msg-more-btn" title="More" aria-label="More actions" aria-haspopup="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>'+
         '</div>';
       var bubbleEl = row.querySelector(".bubble");
-      if(m.text){ bubbleEl.innerHTML = formatMessage(m.text); } else { bubbleEl.style.display = "none"; }
+      if(editingMsgId && editingMsgId === m.id){
+        row.classList.add("editing");
+        renderMessageEditor(bubbleEl, m, c);
+      } else if(m.text){
+        bubbleEl.innerHTML = formatMessage(m.text);
+        if(m.edited) bubbleEl.insertAdjacentHTML("beforeend", '<span class="msg-edited" title="Edited">(edited)</span>');
+      } else { bubbleEl.style.display = "none"; }
 
       Array.prototype.forEach.call(row.querySelectorAll(".msg-image"), function(img){
         img.addEventListener("click", function(){ openImageViewer(img.getAttribute("src"), img.getAttribute("title")); });
       });
       var voiceEl = row.querySelector(".voice-msg");
       if(voiceEl) wireVoicePlayer(voiceEl, m.voice);
+      Array.prototype.forEach.call(row.querySelectorAll(".audio-card"), function(card){ wireAudioCard(card); });
       wireCards(row, m);
 
+      /* keep the action bar on the name/time line, beside them, so it never covers the sender name */
+      var metaEl = row.querySelector(".msg-meta"), tbEl = row.querySelector(".msg-hover-toolbar");
+      if(metaEl && tbEl) metaEl.appendChild(tbEl);
+      bindRetry(row.querySelector(".msg-status"), activeId, m);
       var reactionsSlot = row.querySelector(".reactions-slot");
       renderReactionsInto(reactionsSlot, m);
 
+      Array.prototype.forEach.call(row.querySelectorAll(".quick-emoji"), function(b){
+        b.addEventListener("click", function(){ addReaction(m, b.getAttribute("data-emoji")); });
+      });
       row.querySelector(".msg-react-btn").addEventListener("click", function(e){
         openEmojiPicker(e.currentTarget, function(emoji){ addReaction(m, emoji); }, "right");
       });
@@ -2495,6 +3314,12 @@
       });
       row.querySelector(".msg-more-btn").addEventListener("click", function(e){
         openMessageMenu(e.currentTarget, m, arr, c);
+      });
+      row.querySelector(".msg-forward-btn").addEventListener("click", function(){
+        openForwardModal(m, c);
+      });
+      row.querySelector(".msg-pin-btn").addEventListener("click", function(){
+        togglePin(m, c);
       });
 
       messagesEl.appendChild(row);
@@ -2505,7 +3330,11 @@
     } else {
       scrollToBottom();
     }
-    renderSuggestions();
+  }
+
+  function quickEmojiBtn(m, emoji, label){
+    return '<button class="quick-emoji' + (m.myReaction === emoji ? ' on' : '') + '" data-emoji="' + emoji + '" title="' +
+      (m.myReaction === emoji ? 'Remove ' : '') + label + '" aria-label="React with ' + label + '" aria-pressed="' + (m.myReaction === emoji) + '">' + emoji + '</button>';
   }
 
   function renderReactionsInto(slot, m){
@@ -2581,9 +3410,79 @@
     replyBanner.hidden = true;
   }
 
-  function openMessageMenu(anchorEl, m, arr, contact){
+  function canPinIn(contact){
     var isPersonalChat = !contact || !contact.isGroup;
-    var canPin = isPersonalChat || state.role === "Admin" || state.role === "Supervisor";
+    return isPersonalChat || state.role === "Admin" || state.role === "Supervisor";
+  }
+  function togglePin(m, contact){
+    if(!canPinIn(contact)){
+      toast("Only Admins and Supervisors can pin messages in group chats");
+      return;
+    }
+    m.pinned = !m.pinned;
+    saveState();
+    renderMessages({ preserveScroll: true });
+    renderPinnedBanner();
+    toast(m.pinned ? "Message pinned to conversation" : "Message unpinned");
+  }
+
+  /* ---------- Edit message (own text messages, one-to-one chats only) ---------- */
+  var editingMsgId = null;
+  var editDraft = "";
+  function canEditMessage(m, contact){
+    if(!contact || contact.isGroup) return false;
+    if(m.from !== "me" || m.system || !m.text) return false;
+    return !(m.callLog || m.voice || m.sticker || m.poll || m.event || m.contactCard || m.fwd || m.fileCard || m.aiRecap);
+  }
+  function startEdit(m){
+    ensureMsgMeta(m);
+    editingMsgId = m.id;
+    editDraft = m.text;
+    renderMessages({ preserveScroll:true });
+    var ta = messagesEl.querySelector(".msg-editor textarea");
+    if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  }
+  function cancelEdit(){
+    if(!editingMsgId) return;
+    editingMsgId = null; editDraft = "";
+    renderMessages({ preserveScroll:true });
+  }
+  function saveEdit(m, contact){
+    if(!canEditMessage(m, contact)){ toast("This message can't be edited"); cancelEdit(); return; }
+    var t = editDraft.trim();
+    if(!t){ toast("A message can't be empty"); return; }
+    if(t.length > MAX_CHARS){ toast("Message is too long (max " + MAX_CHARS + " characters)"); return; }
+    if(t === m.text){ cancelEdit(); return; }
+    m.text = t;
+    m.edited = true;
+    editingMsgId = null; editDraft = "";
+    saveState();
+    renderMessages({ preserveScroll:true });
+    renderList(searchInput.value);
+    renderPinnedBanner();
+    toast("Message edited");
+  }
+  function renderMessageEditor(bubbleEl, m, contact){
+    bubbleEl.innerHTML =
+      '<div class="msg-editor"><textarea aria-label="Edit message" maxlength="' + MAX_CHARS + '"></textarea>' +
+      '<div class="msg-editor-foot"><span class="msg-editor-hint">Enter to save · Esc to cancel</span>' +
+      '<div class="msg-editor-btns"><button type="button" class="btn-secondary" data-a="cancel">Cancel</button>' +
+      '<button type="button" class="btn-primary" data-a="save">Save</button></div></div></div>';
+    var ta = bubbleEl.querySelector("textarea");
+    var fit = function(){ ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight, 200) + "px"; };
+    ta.value = editDraft;
+    fit();
+    ta.addEventListener("input", function(){ editDraft = ta.value; fit(); });
+    ta.addEventListener("keydown", function(e){
+      if(e.key === "Escape"){ e.preventDefault(); cancelEdit(); }
+      else if(e.key === "Enter" && !e.shiftKey && !e.isComposing){ e.preventDefault(); saveEdit(m, contact); }
+    });
+    bubbleEl.querySelector('[data-a="cancel"]').addEventListener("click", cancelEdit);
+    bubbleEl.querySelector('[data-a="save"]').addEventListener("click", function(){ saveEdit(m, contact); });
+  }
+
+  function openMessageMenu(anchorEl, m, arr, contact){
+    var canPin = canPinIn(contact);
     var items = [
       {
         label: "Copy text",
@@ -2598,16 +3497,14 @@
       }
     ];
 
+    if(canEditMessage(m, contact)){
+      items.splice(1, 0, { label: "Edit message", onClick: function(){ startEdit(m); } });
+    }
+
     if(canPin){
       items.push({
         label: m.pinned ? "Unpin message" : "Pin message",
-        onClick: function(){
-          m.pinned = !m.pinned;
-          saveState();
-          renderMessages({ preserveScroll: true });
-          renderPinnedBanner();
-          toast(m.pinned ? "Message pinned to conversation" : "Message unpinned");
-        }
+        onClick: function(){ togglePin(m, contact); }
       });
     }
 
@@ -2842,7 +3739,10 @@
   /* ---------------- Actions ---------------- */
   function setActive(id){
     if(recorderState) cancelRecording();
+    stopAllAudio();
     saveDraft();
+    if(state.unread && state.unread[id]) delete state.unread[id];
+    if(editingMsgId){ editingMsgId = null; editDraft = ""; }
     activeId = id;
     state.activeId = id;
     conversationFilter = "";
@@ -2851,7 +3751,6 @@
     clearReplyTarget();
     clearAttachment();
     closeComposerMenu();
-    suggestionsHidden = false;
     msgInput.value = state.drafts[id] || "";
     autosize();
     updateSendState();
@@ -2869,9 +3768,57 @@
     if(v.trim()){ state.drafts[activeId] = v; } else { delete state.drafts[activeId]; }
   }
 
+  /* ---------- Delivery status: pending -> sent -> delivered / failed / undelivered ---------- */
+  var STATUS_LABEL = { pending:"Pending", sent:"Sent", delivered:"Delivered" };
+  function statusHtml(m){
+    if(m.from !== "me" || m.system || m.callLog || !m.status) return "";
+    if(m.status === "failed") return '<div class="msg-status st-failed" role="status">Message failed. <button type="button" class="msg-retry">Retry</button></div>';
+    if(m.status === "undelivered") return '<div class="msg-status st-undelivered" role="status">Undelivered — recipient is offline. <button type="button" class="msg-retry">Retry</button></div>';
+    return '<div class="msg-status st-' + m.status + '" role="status">' + (STATUS_LABEL[m.status] || "") + '</div>';
+  }
+  function bindRetry(el, convId, m){
+    var b = el && el.querySelector(".msg-retry");
+    if(b) b.addEventListener("click", function(){ trackDelivery(convId, m); });
+  }
+  function paintStatus(convId, m){
+    if(convId !== activeId || !m.id) return;
+    var row = messagesEl.querySelector('[data-mid="' + m.id + '"]');
+    if(!row) return;
+    var old = row.querySelector(".msg-status");
+    var tmp = document.createElement("div");
+    tmp.innerHTML = statusHtml(m);
+    var fresh = tmp.firstChild;
+    if(old && fresh) old.replaceWith(fresh);
+    else if(old) old.remove();
+    else if(fresh) row.querySelector(".msg-body").appendChild(fresh);
+    bindRetry(fresh, convId, m);
+  }
+  function setStatus(convId, m, status){
+    m.status = status;
+    saveState();
+    paintStatus(convId, m);
+  }
+  function trackDelivery(convId, m){
+    ensureMsgMeta(m);
+    var c = contacts.find(function(x){ return x.id === convId; });
+    setStatus(convId, m, "pending");
+    var offlineNet = typeof navigator !== "undefined" && navigator.onLine === false;
+    var offlineUser = c && !c.isGroup && c.status === "offline";
+    setTimeout(function(){
+      if(offlineNet){ setStatus(convId, m, "failed"); return; }
+      setStatus(convId, m, "sent");
+      setTimeout(function(){
+        setStatus(convId, m, offlineUser ? "undelivered" : "delivered");
+      }, 900);
+    }, 600);
+  }
+  function trackLast(convId){
+    var arr = state.messages[convId];
+    if(arr && arr.length) trackDelivery(convId, arr[arr.length - 1]);
+  }
+
   function afterSend(){
     delete state.drafts[activeId];
-    suggestionsHidden = false;
     saveState();
     msgInput.value = "";
     autosize();
@@ -2900,6 +3847,7 @@
     }
 
     state.messages[activeId].push(message);
+    trackLast(activeId);
     afterSend();
   }
 
@@ -2968,14 +3916,8 @@
   replyBannerClose.addEventListener("click", clearReplyTarget);
 
   /* Header actions */
-  callBtn.addEventListener("click", function(){
-    var c = contacts.find(function(x){ return x.id === activeId; });
-    toast("Calling " + c.name + "…");
-  });
-  videoBtn.addEventListener("click", function(){
-    var c = contacts.find(function(x){ return x.id === activeId; });
-    toast("Starting video call with " + c.name + "…");
-  });
+  callBtn.addEventListener("click", function(){ simulateCall("voice"); });
+  videoBtn.addEventListener("click", function(){ simulateCall("video"); });
   searchToggleBtn.addEventListener("click", function(){
     chatSearchBar.hidden = !chatSearchBar.hidden;
     if(!chatSearchBar.hidden){
@@ -3002,7 +3944,9 @@
     pinnedBannerIndex = (pinnedBannerIndex + 1) % pinnedCount;
     renderPinnedBanner();
   });
-  chatHeaderLeft.addEventListener("click", toggleDetailPanel);
+  chatHeaderLeft.addEventListener("click", function(){ toggleDetailPanel("profile"); });
+  document.getElementById("detailAddBtn").addEventListener("click", function(){ openDetailPanel("members"); });
+  document.getElementById("detailManageLink").addEventListener("click", function(){ openDetailPanel("members"); });
   detailCloseBtn.addEventListener("click", closeDetailPanel);
   headerMoreBtn.addEventListener("click", function(e){
     var c = contacts.find(function(x){ return x.id === activeId; });
@@ -3065,10 +4009,7 @@
   });
 
   /* Detail panel actions */
-  detailCallBtn.addEventListener("click", function(){
-    var c = contacts.find(function(x){ return x.id === activeId; });
-    toast("Calling " + c.name + "…");
-  });
+  detailCallBtn.addEventListener("click", function(){ simulateCall("voice"); });
   detailEmailBtn.addEventListener("click", function(){
     var c = contacts.find(function(x){ return x.id === activeId; });
     var email = c.name.toLowerCase().replace(" ", ".") + "@nexus.io";
@@ -3087,9 +4028,12 @@
   roleBtn.addEventListener("click", function(e){
     openRoleMenu(e.currentTarget);
   });
-  memberStackEl.addEventListener("click", openMembersModal);
-  createGroupBtn.addEventListener("click", openCreateGroupModal);
-  createUserBtn.addEventListener("click", openCreateUserModal);
+  memberStackEl.addEventListener("click", function(){
+    if(window.matchMedia("(max-width: 1180px)").matches) openMembersModal();
+    else toggleDetailPanel("members");
+  });
+  pinsBtn.addEventListener("click", function(){ toggleDetailPanel("pins"); });
+  notesBtn.addEventListener("click", function(){ toggleDetailPanel("notes"); });
   teamCommBtn.addEventListener("click", openTeamCommunicator);
 
   /* ================================================================
@@ -3353,48 +4297,6 @@
     closeComposerMenu();
   }
 
-  /* ---- suggested replies ---- */
-  var SUGGESTION_RULES = [
-    { re:/\b(review|look at|check)\b/i,                      replies:["I'll review it today", "Looking at it now", "Can you share the link?"] },
-    { re:/\b(thank|thanks|appreciate)\b/i,                   replies:["You're welcome!", "Happy to help 🙌", "Anytime!"] },
-    { re:/\b(meeting|sync|call|schedule|friday|monday|tomorrow|demo)\b/i, replies:["Sounds good, see you then!", "Can we move it to 4 PM?", "I'll send an invite shortly"] },
-    { re:/\b(concern|issue|problem|blocker|risk|sign-off)\b/i, replies:["Let's sync on this today", "I'll loop in the team", "Thanks for flagging"] },
-    { re:/\b(plan|doc|attached|sharing|budget|redlines)\b/i,  replies:["Thanks, I'll take a look", "Looks good to me 👍", "I'll share feedback by EOD"] },
-    { re:/\?\s*$|\b(can you|could you|would you)\b/i,        replies:["Yes, that works for me", "Let me check and get back to you", "Can we discuss on a quick call?"] }
-  ];
-  function computeSuggestions(){
-    var arr = state.messages[activeId] || [];
-    var last = arr[arr.length - 1];
-    if(!last) return ["Hi 👋", "Do you have a minute?", "Quick question for you"];
-    if(last.system) return ["Welcome to the group! 👋", "Glad to have you here", "Let me know if you need anything"];
-    if(last.from === "me") return ["Just following up on this", "Any update on this?", "Thanks!"];
-    var text = last.text || "";
-    for(var i = 0; i < SUGGESTION_RULES.length; i++){
-      if(SUGGESTION_RULES[i].re.test(text)) return SUGGESTION_RULES[i].replies;
-    }
-    return ["Sounds good!", "Thanks for the update", "I'll get back to you shortly"];
-  }
-  function renderSuggestions(){
-    var show = !suggestionsHidden && !recorderState;
-    var list = show ? computeSuggestions() : [];
-    suggestedChips.innerHTML = "";
-    list.forEach(function(text){
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "suggested-chip"; b.textContent = text;
-      b.addEventListener("click", function(){
-        if(msgInput.value.trim()){
-          var v = msgInput.value;
-          replaceRange(v.length, v.length, (/\s$/.test(v) ? "" : " ") + text);
-        } else {
-          replaceRange(0, msgInput.value.length, text);
-        }
-        autosize(); updateSendState();
-      });
-      suggestedChips.appendChild(b);
-    });
-    suggestedRow.hidden = list.length === 0;
-  }
-
   /* ---- quick replies ---- */
   function openQuickReplies(anchorEl){
     openPopoverAt(anchorEl, function(pop){
@@ -3533,17 +4435,33 @@
   /* ---- voice messages ---- */
   var recorderState = null;
   var recorderPending = false;
-  var currentAudio = null;
-  var currentVoiceEl = null;
 
   function fmtDuration(sec){
     sec = Math.max(0, Math.round(sec || 0));
     var m = Math.floor(sec / 60), s = sec % 60;
     return m + ":" + (s < 10 ? "0" : "") + s;
   }
+  var audioPool = {};
+  function pooledAudio(src){
+    var a = audioPool[src];
+    if(a) return a;
+    a = new Audio();
+    a.preload = "metadata";
+    a.src = src;
+    audioPool[src] = a;
+    ["loadedmetadata", "timeupdate", "seeked", "pause", "play", "ended", "error"].forEach(function(ev){
+      a.addEventListener(ev, function(){ if(a._sync) a._sync(); });
+    });
+    a.addEventListener("ended", function(){ a.currentTime = 0; });
+    return a;
+  }
   function stopAllAudio(){
-    if(currentAudio){ try{ currentAudio.pause(); }catch(err){} }
-    currentAudio = null; currentVoiceEl = null;
+    Object.keys(audioPool).forEach(function(k){ audioPool[k].pause(); });
+  }
+  function playExclusive(audio){
+    Object.keys(audioPool).forEach(function(k){ if(audioPool[k] !== audio) audioPool[k].pause(); });
+    var pr = audio.play();
+    if(pr && pr.catch) pr.catch(function(){ toast("Couldn't play this audio"); if(audio._sync) audio._sync(); });
   }
   function voiceHtml(v){
     var bars = "", seed = (v.duration || 1) * 7.3;
@@ -3561,32 +4479,18 @@
     var btn = el.querySelector(".voice-play");
     var prog = el.querySelector(".voice-progress");
     var dur = el.querySelector(".voice-dur");
-    var audio = null;
-    function reset(){
-      el.classList.remove("playing");
-      prog.style.clipPath = "inset(0 100% 0 0)";
-      dur.textContent = fmtDuration(v.duration);
+    var audio = pooledAudio(v.url);
+    function sync(){
+      var total = v.duration || (isFinite(audio.duration) ? audio.duration : 1);
+      var p = Math.min(1, audio.currentTime / total);
+      el.classList.toggle("playing", !audio.paused);
+      prog.style.clipPath = "inset(0 " + (100 - p * 100).toFixed(1) + "% 0 0)";
+      dur.textContent = (audio.paused && audio.currentTime === 0) ? fmtDuration(v.duration) : fmtDuration(audio.currentTime);
     }
+    audio._sync = sync;
+    sync();
     btn.addEventListener("click", function(){
-      if(audio && !audio.paused){ audio.pause(); el.classList.remove("playing"); return; }
-      if(currentAudio && currentAudio !== audio){
-        currentAudio.pause();
-        if(currentVoiceEl) currentVoiceEl.classList.remove("playing");
-      }
-      if(!audio){
-        audio = new Audio(v.url);
-        audio.addEventListener("timeupdate", function(){
-          var total = v.duration || 1;
-          var p = Math.min(1, audio.currentTime / total);
-          prog.style.clipPath = "inset(0 " + (100 - p * 100).toFixed(1) + "% 0 0)";
-          dur.textContent = fmtDuration(audio.currentTime);
-        });
-        audio.addEventListener("ended", reset);
-      }
-      currentAudio = audio; currentVoiceEl = el;
-      var pr = audio.play();
-      if(pr && pr.catch) pr.catch(function(){ toast("Couldn't play this voice message"); el.classList.remove("playing"); });
-      el.classList.add("playing");
+      if(!audio.paused) audio.pause(); else playExclusive(audio);
     });
   }
   function setRecordingUI(on){
@@ -3594,7 +4498,6 @@
     composerBox.classList.toggle("is-recording", on);
     micBtn.classList.toggle("recording", on);
     if(on){ closeComposerMenu(); }
-    renderSuggestions();
     updateSendState();
   }
   function startRecording(){
@@ -3623,6 +4526,7 @@
           var arr = state.messages[st.convId];
           if(!arr) return;
           arr.push({ from:"me", text:"", time:nowTime(), voice:{ url:reader.result, duration:duration } });
+          trackLast(st.convId);
           saveState();
           if(activeId === st.convId){ renderMessages(); }
           renderList(searchInput.value);
@@ -3649,6 +4553,85 @@
     if(recorderState.recorder.state !== "inactive") recorderState.recorder.stop();
   }
   function cancelRecording(){ stopRecording(false); }
+
+  /* ---- audio file player card ---- */
+  function waveMask(name){
+    /* deterministic bar heights per file so each card has its own waveform */
+    var seed = 7, i;
+    for(i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) % 9973;
+    var bars = "", n = 44;
+    for(i = 0; i < n; i++){
+      seed = (seed * 137 + 71) % 9973;
+      var hgt = 5 + (seed % 20);
+      bars += '<rect x="' + (i * 5 + 0.5) + '" y="' + ((28 - hgt) / 2) + '" width="3" height="' + hgt + '" rx="1.5"/>';
+    }
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + (n * 5) + ' 28" preserveAspectRatio="none">' + bars + '</svg>';
+    return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  }
+  function audioCardHtml(a, src){
+    var ext = (/\.([a-z0-9]+)$/i.exec(a.name || "") || [])[1];
+    var meta = ["Audio", ext ? ext.toUpperCase() : "", a.size ? formatBytes(a.size) : ""].filter(Boolean).join(" · ");
+    return '<div class="audio-card" data-src="' + fmtEscape(src) + '" style="--wave:' + fmtEscape(waveMask(a.name || "audio")) + '">' +
+      '<div class="ac-head">' +
+        '<div class="ac-tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>' +
+        '<div class="ac-main"><div class="ac-name" title="' + fmtEscape(a.name) + '">' + escapeHtml(a.name) + '</div>' +
+        '<div class="ac-meta">' + escapeHtml(meta) + '</div></div>' +
+        '<a class="ac-dl" href="' + fmtEscape(src) + '" download="' + fmtEscape(a.name) + '" title="Download" aria-label="Download ' + fmtEscape(a.name) + '">' +
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+        '</a>' +
+      '</div>' +
+      '<div class="ac-controls">' +
+        '<button class="ac-play" type="button" aria-label="Play">' +
+          '<svg class="ic-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>' +
+          '<svg class="ic-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>' +
+        '</button>' +
+        '<input class="ac-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Seek">' +
+        '<span class="ac-time"><span class="ac-cur">0:00</span> / <span class="ac-dur">0:00</span></span>' +
+        '<button class="ac-speed" type="button" title="Playback speed">1×</button>' +
+      '</div></div>';
+  }
+  function wireAudioCard(card){
+    var src = card.getAttribute("data-src");
+    var playBtn = card.querySelector(".ac-play");
+    var seek = card.querySelector(".ac-seek");
+    var cur = card.querySelector(".ac-cur");
+    var dur = card.querySelector(".ac-dur");
+    var speedBtn = card.querySelector(".ac-speed");
+    var audio = pooledAudio(src);
+    var speeds = [1, 1.5, 2, 0.75];
+
+    function fmt(s){ return isFinite(s) && s > 0 ? fmtDuration(s) : "0:00"; }
+    function sync(){
+      var d = audio.duration;
+      var p = (isFinite(d) && d > 0) ? (audio.currentTime / d) * 100 : 0;
+      seek.value = p;
+      seek.style.setProperty("--p", p + "%");
+      cur.textContent = fmt(audio.currentTime);
+      dur.textContent = audio.error ? "Unavailable" : fmt(d);
+      card.classList.toggle("playing", !audio.paused);
+      card.classList.toggle("error", !!audio.error);
+      speedBtn.textContent = (Math.round(audio.playbackRate * 100) / 100) + "×";
+    }
+    audio._sync = sync;
+    sync();
+
+    playBtn.addEventListener("click", function(){
+      if(!audio.paused) audio.pause(); else playExclusive(audio);
+    });
+    seek.addEventListener("input", function(){
+      var d = audio.duration;
+      if(isFinite(d) && d > 0){
+        audio.currentTime = (seek.value / 100) * d;
+        cur.textContent = fmt(audio.currentTime);
+      }
+      seek.style.setProperty("--p", seek.value + "%");
+    });
+    speedBtn.addEventListener("click", function(){
+      var i = speeds.indexOf(audio.playbackRate);
+      audio.playbackRate = speeds[(i + 1) % speeds.length];
+      sync();
+    });
+  }
 
   /* ---- drafts ---- */
   var draftTimer = null;
@@ -3679,6 +4662,12 @@
         return;
       }
       if(e.key === "Escape"){ e.preventDefault(); closeComposerMenu(); return; }
+    }
+
+    if(e.key === "ArrowUp" && !msgInput.value && !e.shiftKey && !e.altKey){
+      var ec = contacts.find(function(x){ return x.id === activeId; });
+      var mine = (state.messages[activeId] || []).filter(function(x){ return canEditMessage(x, ec); });
+      if(mine.length){ e.preventDefault(); startEdit(mine[mine.length - 1]); return; }
     }
 
     if(e.ctrlKey || e.metaKey){
@@ -3738,7 +4727,6 @@
   });
   recordCancelBtn.addEventListener("click", cancelRecording);
   recordSendBtn.addEventListener("click", function(){ stopRecording(true); });
-  suggestedDismiss.addEventListener("click", function(){ suggestionsHidden = true; renderSuggestions(); });
 
   var dragDepth = 0;
   function hasFiles(e){ return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") !== -1; }
@@ -3785,7 +4773,7 @@
   function sendCardMessage(message, opts){
     opts = opts || {};
     state.messages[activeId].push(message);
-    suggestionsHidden = false;
+    trackLast(activeId);
     saveState();
     renderMessages();
     renderList(searchInput.value);
@@ -4219,6 +5207,15 @@
       });
       if(callBtn2) callBtn2.addEventListener("click", function(){ toast("Calling " + m.contactCard.name + "…"); });
     }
+    if(m.callLog){
+      var shareBtn = row.querySelector(".cl-share"), openBtn = row.querySelector(".cl-open");
+      if(shareBtn) shareBtn.addEventListener("click", function(){ copyText(callSummaryLines(m.callLog).join("\n"), "Call details copied"); });
+      if(openBtn) openBtn.addEventListener("click", function(){ openCallDetails(m.callLog); });
+    }
+    if(m.fwd){
+      var viewBtn = row.querySelector(".fwd-view");
+      if(viewBtn) viewBtn.addEventListener("click", function(){ goToMessage(m.fwd.convId, m.fwd.msgId); });
+    }
     var stk = row.querySelector(".msg-sticker");
     if(stk) stk.addEventListener("click", function(){ openImageViewer(stk.getAttribute("src"), "Sticker"); });
   }
@@ -4371,6 +5368,264 @@
       sendEl.addEventListener("click", function(){ var d = saveCurrent(); closeModal(); sendSticker(d); });
       box.querySelector("#modalCloseBtn").addEventListener("click", closeModal);
       paintGrid(); redraw();
+    });
+  }
+
+  /* ================================================================
+     Conversation timeline: day pills, call cards, forwarded messages
+     ================================================================ */
+  var WEEKDAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+  function resolveTs(m){
+    var t = String(m.time || "").trim();
+    var now = new Date(), d = new Date(now);
+    var mt = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(t);
+    if(mt){
+      var h = parseInt(mt[1], 10) % 12;
+      if(/pm/i.test(mt[3])) h += 12;
+      d.setHours(h, parseInt(mt[2], 10), 0, 0);
+      return d.getTime();
+    }
+    var dm = /^(\d+)d\s+(\d{1,2}:\d{2}\s*[AP]M)$/i.exec(t);
+    if(dm){
+      var base = new Date(resolveTs({ time: dm[2] }));
+      base.setDate(base.getDate() - parseInt(dm[1], 10));
+      return base.getTime();
+    }
+    if(/^yesterday$/i.test(t)){ d.setDate(d.getDate() - 1); d.setHours(10, 30, 0, 0); return d.getTime(); }
+    var wd = WEEKDAYS.indexOf(t.slice(0, 3).toLowerCase());
+    if(wd !== -1 && t.length <= 4){
+      var diff = (now.getDay() - wd + 7) % 7 || 7;
+      d.setDate(d.getDate() - diff); d.setHours(11, 0, 0, 0);
+      return d.getTime();
+    }
+    if(/^last week$/i.test(t)){ d.setDate(d.getDate() - 8); d.setHours(10, 0, 0, 0); return d.getTime(); }
+    return now.getTime();
+  }
+  function ensureMsgMeta(m){
+    if(!m.id) m.id = uid("m");
+    if(!m.ts) m.ts = resolveTs(m);
+  }
+  function dayKey(ts){
+    var d = new Date(ts);
+    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+  }
+  function dayLabel(ts){
+    var d = new Date(ts), now = new Date();
+    if(dayKey(ts) === dayKey(now.getTime())) return "Today";
+    var y = new Date(now); y.setDate(y.getDate() - 1);
+    if(dayKey(ts) === dayKey(y.getTime())) return "Yesterday";
+    var opts = { weekday:"long", month:"long", day:"numeric" };
+    if(d.getFullYear() !== now.getFullYear()) opts.year = "numeric";
+    return d.toLocaleDateString("en-US", opts);
+  }
+  function relDay(ts){
+    var l = dayLabel(ts);
+    return (l === "Today" || l === "Yesterday") ? l : shortDate(ts);
+  }
+  function listTimeLabel(m){
+    ensureMsgMeta(m);
+    var d = new Date(m.ts), now = new Date();
+    if(dayKey(m.ts) === dayKey(now.getTime())) return displayTime(m);
+    var y = new Date(now); y.setDate(y.getDate() - 1);
+    if(dayKey(m.ts) === dayKey(y.getTime())) return "Yesterday";
+    var diff = (now.getTime() - m.ts) / 86400000;
+    if(diff < 7) return d.toLocaleDateString("en-US", { weekday:"short" });
+    return d.toLocaleDateString("en-US", { month:"short", day:"numeric" });
+  }
+  function shortDate(ts){
+    return new Date(ts).toLocaleDateString("en-US", { weekday:"short", month:"short", day:"numeric" });
+  }
+  function displayTime(m){
+    var clean = String(m.time || "").replace(/^\d+d\s+/, "");
+    if(/\d:\d{2}/.test(clean)) return clean;
+    return new Date(m.ts || resolveTs(m)).toLocaleTimeString("en-US", { hour:"numeric", minute:"2-digit" });
+  }
+  function findMessage(convId, msgId){
+    var arr = state.messages[convId] || [];
+    for(var i = 0; i < arr.length; i++){ if(arr[i].id === msgId) return arr[i]; }
+    return null;
+  }
+  function phoneFor(c){
+    if(c.phone) return c.phone;
+    var n = 0, s = String(c.id || c.name);
+    for(var i = 0; i < s.length; i++) n = (n * 31 + s.charCodeAt(i)) % 90;
+    return "(415) 555-01" + (n < 10 ? "0" : "") + n;
+  }
+  var MY_PHONE = "(415) 555-0100";
+
+  /* ---- call cards ---- */
+  var CALL_ICON_PATH = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>';
+  function callIconSvg(cl){
+    var extra = "";
+    if(cl.kind === "video") return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m23 7-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
+    if(cl.status === "missed") extra = '<line x1="23" y1="1" x2="17" y2="7"/><line x1="17" y1="1" x2="23" y2="7"/>';
+    else if(cl.direction === "incoming") extra = '<polyline points="16 2 16 8 22 8"/><line x1="23" y1="1" x2="16" y2="8"/>';
+    else extra = '<polyline points="23 7 23 1 17 1"/><line x1="16" y1="8" x2="23" y2="1"/>';
+    return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + CALL_ICON_PATH + extra + '</svg>';
+  }
+  function callCardHtml(cl){
+    var missed = cl.status === "missed";
+    var lines = "";
+    if(cl.to) lines += '<div class="cl-line">To ' + escapeHtml(cl.to) + '</div>';
+    if(missed) lines += '<div class="cl-line">No answer' + (cl.endedAt ? ' • ' + escapeHtml(cl.endedAt) : "") + '</div>';
+    else if(cl.lasted) lines += '<div class="cl-line">Lasted ' + escapeHtml(cl.lasted) + (cl.endedAt ? ' • Ended at ' + escapeHtml(cl.endedAt) : "") + '</div>';
+    else if(cl.meta) lines += '<div class="cl-line">' + escapeHtml(cl.meta) + '</div>';
+    if(!missed && cl.answeredBy) lines += '<div class="cl-line">Answered by ' + escapeHtml(cl.answeredBy) + '</div>';
+    return '<div class="cl-card"><div class="cl-inner' + (missed ? " missed" : "") + '">' +
+      '<span class="cl-ico">' + callIconSvg(cl) + '</span>' +
+      '<div class="cl-body"><div class="cl-title">' + escapeHtml(cl.title || "Call") + '</div>' + lines + '</div>' +
+      '<div class="cl-acts">' +
+        '<button type="button" class="cl-btn cl-share" title="Copy call details"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
+        '<button type="button" class="cl-btn cl-open" title="Open call details"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></button>' +
+      '</div></div></div>';
+  }
+  function callSummaryLines(cl){
+    var out = [cl.title || "Call"];
+    if(cl.to) out.push("To " + cl.to);
+    if(cl.status === "missed") out.push("No answer" + (cl.endedAt ? " • " + cl.endedAt : ""));
+    else if(cl.lasted) out.push("Lasted " + cl.lasted + (cl.endedAt ? " • Ended at " + cl.endedAt : ""));
+    if(cl.status !== "missed" && cl.answeredBy) out.push("Answered by " + cl.answeredBy);
+    return out;
+  }
+  function copyText(text, okMsg){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ toast(okMsg); }).catch(function(){ toast("Couldn't copy to the clipboard"); });
+    } else {
+      toast("Copy isn't supported in this browser");
+    }
+  }
+  function openCallDetails(cl){
+    openModal(function(box){
+      var rows = [
+        ["Type", (cl.kind === "video" ? "Video call" : "Voice call") + " · " + (cl.status === "missed" ? "Missed" : (cl.direction === "incoming" ? "Incoming" : "Outgoing"))],
+        ["Number", cl.to || "—"],
+        ["Duration", cl.status === "missed" ? "No answer" : (cl.lasted || "—")],
+        ["Ended", cl.endedAt || "—"],
+        ["Answered by", cl.status === "missed" ? "—" : (cl.answeredBy || "—")]
+      ];
+      box.innerHTML = modalHeader(escapeHtml(cl.title || "Call details"), "Call details") +
+        '<div class="detail-block" style="padding:0;border:none">' +
+        rows.map(function(r){ return '<div class="detail-row"><span>' + r[0] + '</span><b>' + escapeHtml(r[1]) + '</b></div>'; }).join("") +
+        '</div><div class="modal-actions"><button class="btn-secondary" id="clCopy" type="button">Copy details</button>' +
+        '<button class="btn-primary" id="clBack" type="button">Call back</button></div>';
+      box.querySelector("#modalCloseBtn").addEventListener("click", closeModal);
+      box.querySelector("#clCopy").addEventListener("click", function(){ copyText(callSummaryLines(cl).join("\n"), "Call details copied"); });
+      box.querySelector("#clBack").addEventListener("click", function(){ closeModal(); simulateCall(cl.kind === "video" ? "video" : "voice"); });
+    });
+  }
+  function fmtLasted(sec){
+    sec = Math.max(1, Math.round(sec));
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    if(h) return h + " h " + m + " min";
+    if(m) return m + " min " + s + " s";
+    return s + " s";
+  }
+  var callPending = false;
+  function simulateCall(kind){
+    var c = activeContact();
+    if(!c || callPending) return;
+    var convId = activeId;
+    var isVideo = kind === "video";
+    callPending = true;
+    toast(isVideo ? "Starting video call with " + c.name + "…" : "Calling " + c.name + "…");
+    setTimeout(function(){
+      callPending = false;
+      var members = c.isGroup ? membersOf(c).filter(function(x){ return !x.me; }) : [c];
+      var chance = c.isGroup ? 0.8 : ({ ready:0.9, busy:0.3, break:0.4, loggedoff:0.1 }[c.commStatus] || 0.6);
+      var answered = Math.random() < chance && members.length > 0;
+      var who = members[Math.floor(Math.random() * members.length)];
+      var cl = {
+        direction:"outgoing", kind:isVideo ? "video" : "voice", status:answered ? "answered" : "missed",
+        title:(c.isGroup ? (isVideo ? "You started a group video call" : "You started a group call") : (isVideo ? "You video-called " : "You called ") + c.name),
+        to:c.isGroup ? c.name : phoneFor(c), endedAt:nowTime()
+      };
+      if(answered){ cl.lasted = fmtLasted(15 + Math.random() * 500); cl.answeredBy = who ? who.name : c.name; }
+      var arr = state.messages[convId];
+      if(!arr) return;
+      arr.push({ from:"me", text:"", time:nowTime(), callLog:cl });
+      saveState();
+      if(activeId === convId) renderMessages();
+      renderList(searchInput.value);
+      toast(answered ? "Call ended" : c.name + " didn't answer");
+    }, 2200);
+  }
+
+  /* ---- forwarded messages ---- */
+  function fwdCardHtml(f){
+    var src = findMessage(f.convId, f.msgId);
+    var ts = (src && src.ts) || f.ts || Date.now();
+    var body = f.text ? formatMessage(f.text) : escapeHtml(f.preview || "");
+    return '<div class="fwd-card"><div class="fwd-head"><span class="avatar xs ' + escapeHtml(f.avatarClass || "avatar-1") + '">' + escapeHtml(f.initials || "?") + '</span>' +
+      '<span class="fwd-author">' + escapeHtml(f.author) + '</span></div>' +
+      '<div class="fwd-text">' + body + '</div>' +
+      '<div class="fwd-foot"><span>' + escapeHtml(f.source || "Direct message") + '</span><i></i><span>' + shortDate(ts) + '</span><i></i>' +
+      '<button type="button" class="fwd-view">View message</button></div></div>';
+  }
+  function goToMessage(convId, msgId){
+    if(!findMessage(convId, msgId)){ toast("The original message is no longer available"); return; }
+    if(convId !== activeId){
+      setActive(convId);
+    } else if(conversationFilter){
+      conversationFilter = ""; chatSearchInput.value = ""; chatSearchBar.hidden = true;
+      renderMessages();
+    }
+    var el = messagesEl.querySelector('[data-mid="' + msgId + '"]');
+    if(!el){ toast("The original message is no longer available"); return; }
+    el.scrollIntoView({ block:"center" });
+    el.classList.add("flash");
+    setTimeout(function(){ el.classList.remove("flash"); }, 1900);
+  }
+  function openForwardModal(m, srcContact){
+    openModal(function(box){
+      box.classList.add("members-box");
+      var snippet = previewText(m) || "Message";
+      box.innerHTML = modalHeader("Forward message", "Choose a conversation to send this to.") +
+        '<div class="fwd-preview"></div>' +
+        '<input type="text" class="form-input" id="fwdNote" placeholder="Add a message (optional)" maxlength="500" style="margin-bottom:8px">' +
+        '<input type="text" class="form-input" id="fwdSearch" placeholder="Search people and groups…" style="margin-bottom:8px">' +
+        '<div class="members-list" id="fwdList"></div>';
+      box.querySelector(".fwd-preview").textContent = snippet.length > 140 ? snippet.slice(0, 140) + "…" : snippet;
+      var listEl = box.querySelector("#fwdList"), search = box.querySelector("#fwdSearch"), note = box.querySelector("#fwdNote");
+      function paint(){
+        listEl.innerHTML = "";
+        var q = search.value.trim().toLowerCase();
+        var found = contacts.filter(function(c){ return !q || c.name.toLowerCase().indexOf(q) !== -1; });
+        if(!found.length){ listEl.innerHTML = '<div class="team-comm-empty">No matches</div>'; return; }
+        found.forEach(function(t){
+          var row = document.createElement("div");
+          row.className = "member-manage-row";
+          row.innerHTML = '<div class="avatar ' + t.avatarClass + ' sm">' + escapeHtml(t.initials) + '</div>' +
+            '<div class="member-manage-meta"><div class="member-manage-name">' + escapeHtml(t.name) + (t.id === activeId ? '<span class="you-tag">This chat</span>' : "") + '</div>' +
+            '<div class="member-manage-sub">' + escapeHtml(t.isGroup ? "Group · " + memberCount(t) + " members" : t.role) + '</div></div>';
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "member-action-btn add"; b.textContent = "Send";
+          b.addEventListener("click", function(){
+            var mine = m.from === "me";
+            var fwd = {
+              convId:activeId, msgId:m.id, ts:m.ts,
+              author: mine ? ME.name : srcContact.name,
+              initials: mine ? ME.initials : srcContact.initials,
+              avatarClass: mine ? "avatar-me" : srcContact.avatarClass,
+              source: srcContact.isGroup ? "Group · " + srcContact.name : "Direct message"
+            };
+            if(m.text) fwd.text = m.text; else fwd.preview = snippet;
+            state.messages[t.id].push({ from:"me", text:note.value.trim(), time:nowTime(), fwd:fwd });
+            trackLast(t.id);
+            saveState();
+            closeModal();
+            renderList(searchInput.value);
+            if(t.id === activeId) renderMessages();
+            toast("Forwarded to " + t.name);
+          });
+          row.appendChild(b);
+          listEl.appendChild(row);
+        });
+      }
+      search.addEventListener("input", paint);
+      box.querySelector("#modalCloseBtn").addEventListener("click", closeModal);
+      paint();
+      note.focus();
     });
   }
 
